@@ -1,0 +1,39 @@
+{
+	"sap.app": {
+		"id": "mlauffer.demo.openui5.smartmockserver",
+		"type": "application",
+    "dataSources": {
+      "NORTHWIND": {
+        "uri": "http://services.odata.org/V2/Northwind/Northwind.svc/",
+        "settings": {
+          "localUri": "localService/metadata.xml"
+        }
+      }
+    }
+  },
+	"sap.ui5": {
+		"dependencies": {
+			"libs": {
+				"sap.ui.core": {},
+				"sap.m": {}
+			}
+		},
+		"models": {
+      "": {
+        "dataSource": "NORTHWIND",
+        "preload": true
+      },
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "mlauffer.demo.openui5.smartmockserver.i18n.i18n"
+				}
+			}
+		},
+		"rootView": {
+			"viewName": "mlauffer.demo.openui5.smartmockserver.view.App",
+			"id": "rootApp",
+			"type": "XML"
+		}
+	}
+}

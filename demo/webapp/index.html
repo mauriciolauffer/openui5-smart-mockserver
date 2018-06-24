@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Mauricio Lauffer">
+  <title>OpenUI5 SmartMockServer</title>
+  <script id="sap-ui-bootstrap"
+          src="../../resources/sap-ui-core.js"
+          data-sap-ui-libs="sap.m" data-sap-ui-theme="sap_belize"
+          data-sap-ui-compatVersion="edge" data-sap-ui-preload="async"
+          data-sap-ui-resourceroots='{
+          "mlauffer.demo.openui5.smartmockserver": "./",
+          "openui5.smartmockserver": "../../src/openui5/smartmockserver"}'></script>
+</head>
+<body class="sapUiBody" role="application">
+<div id="content"></div>
+<script>
+  sap.ui.getCore().attachInit(function() {
+      "use strict";
+      sap.ui.require([
+        "sap/m/Shell",
+        "sap/ui/core/ComponentContainer",
+        "mlauffer/demo/openui5/smartmockserver/localService/mockserver"
+      ], function (Shell, ComponentContainer, mockserver) {
+        mockserver.init();
+
+        sap.ui.component({
+          name: "mlauffer.demo.openui5.smartmockserver",
+          manifest: true,
+          async: true
+        }).then(function(oComponent) {
+          new Shell({
+            app: new ComponentContainer({
+              height: "100%",
+              component: oComponent
+            }),
+          }).placeAt("content");
+        });
+      });
+    });
+</script>
+</body>
+</html>

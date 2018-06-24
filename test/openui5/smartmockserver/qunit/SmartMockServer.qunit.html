@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Mauricio Lauffer">
+  <title>Test Page for openui5.smartmockserver.SmartMockServer</title>
+  <link rel="stylesheet" href="../../../../resources/sap/ui/thirdparty/qunit-2.css" type="text/css" media="screen">
+  <script id="sap-ui-bootstrap"
+          src="../../../../resources/sap-ui-core.js"
+          data-sap-ui-preload="async"
+          data-sap-ui-compatVersion="edge"
+          data-sap-ui-resourceroots='{
+          "openui5": "../../../../src/openui5",
+          "test.unit": "./"}'>
+  </script>
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+<div id="content"></div>
+<script src="../../../../resources/sap/ui/thirdparty/qunit-2.js"></script>
+<script src="../../../../resources/sap/ui/qunit/qunit-coverage.js"></script>
+<script src="../../../../resources/sap/ui/thirdparty/sinon.js"></script>
+<script src="../../../../resources/sap/ui/thirdparty/sinon-qunit.js"></script>
+<script>
+  if (window.blanket) {
+    window.blanket.options('sap-ui-cover-only', 'openui5/smartmockserver');
+  }
+
+  QUnit.config.autostart = false;
+
+  sap.ui.getCore().attachInitEvent(function() {
+    sap.ui.require([
+        'test/unit/SmartMockServer'
+      ], function() {
+        QUnit.start();
+      }
+    );
+  });
+</script>
+</body>
+</html>

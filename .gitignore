@@ -1,0 +1,48 @@
+build/
+coverage/
+data/logs/
+resources/
+.env
+*.log
+.nyc_output/
+
+# Ignore .gitignore, target and tmp folders
+target/
+tmp/
+
+# Ignore Eclipse project and settings files
+.classpath
+.settings
+.project
+.externalToolBuilders
+
+# Ignore IntelliJ project and settings files
+.idea/
+*.iml
+
+# Ignore temp folders
+grunt/bin/
+
+# Ignore npm files/folders
+node_modules/
+npm-debug.log
+
+# Ignore bower folder
+bower_components/
+
+# Ignore Mac files
+.DS_Store
+
+# Ignore Visual Studio project and settings files
+*.sln
+*.suo
+web.config
+/.user.project.json
+/sap-ui-cachebuster-info.json
+
+# Ignore Visual Studio Code project and settings files
+.vscode/
+
+# Ignore yarn files
+yarn.lock
+*yarn
