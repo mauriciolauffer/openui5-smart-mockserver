@@ -6,17 +6,7 @@
   "author": "Mauricio Lauffer",
   "license": "MIT",
   "keywords": [
-    "openui5",
-    "sapui5",
-    "ui5",
-    "ui5lab",
-    "mock",
-    "mockserver",
-    "mockdata",
-    "faker",
-    "fake",
-    "smart",
-    "smarter"
+    "openui5", "sapui5", "ui5", "ui5lab", "mock", "mockserver", "mockdata", "faker", "fake", "smart", "smarter"
   ],
   "main": "dist/openui5/smartmockserver",
   "devDependencies": {
@@ -31,8 +21,7 @@
   "scripts": {
     "test": "grunt lint && grunt test",
     "start": "grunt serve",
-    "build": "grunt build",
-    "postversion": "git push --tags"
+    "build": "grunt build"
   },
   "repository": {
     "type": "git",
