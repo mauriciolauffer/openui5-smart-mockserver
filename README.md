@@ -34,14 +34,16 @@ $ npm install openui5-smart-mockserver
 Add the library to *sap.ui5/dependencies/libs* and set its path in *sap.ui5/resourceRoots* in your manifest.json file, as follows:
 
 ```json
-"sap.ui5": {
-  "dependencies": {
-    "libs": {
-      "openui5.smartmockserver": {}
+{
+  "sap.ui5": {
+    "dependencies": {
+      "libs": {
+        "openui5.smartmockserver": {}
+      }
+    },
+    "resourceRoots": {
+      "openui5.smartmockserver": "./FOLDER_WHERE_YOU_PLACED_THE_LIBRARY/openui5/smartmockserver/"
     }
-  },
-  "resourceRoots": {
-    "openui5.smartmockserver": "./FOLDER_WHERE_YOU_PLACED_THE_LIBRARY/openui5/smartmockserver/"
   }
 }
 ```

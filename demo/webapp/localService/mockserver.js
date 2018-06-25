@@ -16,7 +16,7 @@ sap.ui.define([
         // This is where everything starts.
         // It's the only extra method you need to call to have meaningful mock data.
         // That's it!
-        //mockServer.setSmartRules(this._getSmartRules());
+        mockServer.setSmartRules(this._getSmartRules());
 
         SmartMockServer.config({
           autoRespond: true,

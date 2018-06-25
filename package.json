@@ -12,15 +12,18 @@
     "ui5lab",
     "mock",
     "mockserver",
-    "faker"
+    "mockdata",
+    "faker",
+    "fake",
+    "smart",
+    "smarter"
   ],
   "main": "dist/openui5/smartmockserver",
   "devDependencies": {
-    "eslint": "^4.19.1",
+    "eslint": "^5.0.0",
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^1.1.0",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-openui5": "^0.12.0"
+    "grunt-openui5": "^0.14.0"
   },
   "dependencies": {
     "faker": "^4.1.0"
