@@ -2,6 +2,7 @@
 	"sap.app": {
 		"id": "mlauffer.demo.openui5.smartmockserver",
 		"type": "application",
+    "i18n": "i18n/i18n.properties",
     "dataSources": {
       "NORTHWIND": {
         "uri": "http://services.odata.org/V2/Northwind/Northwind.svc/",
