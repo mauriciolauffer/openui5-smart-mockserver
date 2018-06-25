@@ -1,48 +1,50 @@
 <mvc:View controllerName="mlauffer.demo.openui5.smartmockserver.controller.App" displayBlock="true"
           xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m">
-    <App>
-        <Page id="page" title="{i18n>TITLE}">
-            <Table id="table" headerText="{i18n>Employees}" items="{/Employees}">
-                <columns>
-                    <Column hAlign="Center">
-                        <Text text="{i18n>Name}" />
-                    </Column>
-                    <Column hAlign="Center">
-                        <Text text="{i18n>Title}" />
-                    </Column>
-                    <Column hAlign="Center">
-                        <Text text="{i18n>Address01}" />
-                    </Column>
-                    <Column hAlign="Center">
-                        <Text text="{i18n>Address02}" />
-                    </Column>
-                    <Column hAlign="Center">
-                        <Text text="{i18n>Address03}" />
-                    </Column>
-                    <Column hAlign="Center">
-                        <Text text="{i18n>Phone}" />
-                    </Column>
-                    <Column hAlign="Center">
-                        <Text text="{i18n>Email}" />
-                    </Column>
-                </columns>
-                <items>
-                    <ColumnListItem>
-                        <cells>
-                            <HBox>
-                                <Image src="{PhotoPath}" width="32px" heigth="32px" densityAware="false" />
-                                <Text text="{FirstName} {LastName}" />
-                            </HBox>
-                            <Text text="{Title}" />
-                            <Text text="{Address}" />
-                            <Text text="{City}, {Region}" />
-                            <Text text="{PostalCode}, {Country}" />
-                            <Text text="{HomePhone}" />
-                            <Text text="{Notes}" />
-                        </cells>
-                    </ColumnListItem>
-                </items>
-            </Table>
-        </Page>
-    </App>
+    <Shell>
+        <App>
+            <Page id="page" title="{i18n>TITLE}">
+                <Table id="table" headerText="{i18n>Employees}" items="{/Employees}">
+                    <columns>
+                        <Column hAlign="Center">
+                            <Text text="{i18n>Name}" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="{i18n>Title}" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="{i18n>Address01}" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="{i18n>Address02}" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="{i18n>Address03}" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="{i18n>Phone}" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="{i18n>Email}" />
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <HBox>
+                                    <Image src="{PhotoPath}" width="32px" heigth="32px" densityAware="false" />
+                                    <Text text="{FirstName} {LastName}" />
+                                </HBox>
+                                <Text text="{Title}" />
+                                <Text text="{Address}" />
+                                <Text text="{City}, {Region}" />
+                                <Text text="{PostalCode}, {Country}" />
+                                <Text text="{HomePhone}" />
+                                <Text text="{Notes}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </Page>
+        </App>
+    </Shell>
 </mvc:View>

@@ -31,7 +31,8 @@
   "scripts": {
     "test": "grunt lint && grunt test",
     "start": "grunt serve",
-    "build": "grunt build"
+    "build": "grunt build",
+    "postversion": "git push --tags"
   },
   "repository": {
     "type": "git",

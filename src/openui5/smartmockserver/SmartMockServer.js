@@ -134,7 +134,11 @@ sap.ui.define([
   /**
    * Sets the smart rules to the Entities and their properties
    *
-   * @param {array} smartRules an array of smart rules
+   * @param {Object[]} smartRules An array of smart rules
+   * @param {string} smartRules[].entityName The name of an Entity.
+   * @param {Object[]} smartRules[].properties An array with Entity properties and its Faker methods.
+   * @param {string} smartRules[].properties[].name The name of an Entity property.
+   * @param {string} smartRules[].properties[].fakerMethod The Faker method to be used for this property
    * @public
    */
   SmartMockServer.prototype.setSmartRules = function(smartRules) {

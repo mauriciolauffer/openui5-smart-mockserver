@@ -2,16 +2,26 @@
 An extended and smarter version of UI5 MockServer for meaningful mock data.
 
 OpenUI5 Smart MockServer uses the open source library Faker.js to generate meaningful fake data.
+You can use any available method in [Faker.js](https://github.com/marak/Faker.js/#api-methods).
 
-Regular MockServer: just a bunch of texts and numbers
+*Regular MockServer:* just a bunch of texts and numbers
 [<img src="mockserver.png">](https://raw.githubusercontent.com/mauriciolauffer/openui5-smart-mockserver/master/mockserver.png)
 
-Smart MockServer: meaningful data, better for tests and presentations to customer
+*Smart MockServer:* meaningful data, better for tests and presentations to customer
 [<img src="smartmockserver.png">](https://raw.githubusercontent.com/mauriciolauffer/openui5-smart-mockserver/master/smartmockserver.png)
+
+
+## Faker.js
+For any references, please follow
+
+Faker.js: https://github.com/marak/Faker.js
+
+Faker.js methods: https://github.com/marak/Faker.js/#api-methods
 
 
 ## Demo
 You can check out a live demo here:
+
 https://rawgit.com/mauriciolauffer/openui5-smart-mockserver/master/demo/webapp/index.html
 
 
@@ -59,7 +69,7 @@ sap.ui.define([
 
     return {
       init: function() {
-        const metadataUrl = 'local/path/to/the/metadata.xml/file';
+        const metadataUrl = 'local/path/to/the/file/metadata.xml';
         const mockServerUrl = 'odata/service/url';
         const mockServer = new SmartMockServer({ rootUri: mockServerUrl });
 
@@ -83,13 +93,13 @@ sap.ui.define([
 
       //Here we define the smart rules for entity's properties
       _getSmartRules: function() {
-        const smartRules = [];
+        const smartRules = []; //Smart rules must be an array with objects such as the following example
         smartRules.push({
           entityName: 'Employee', //Entity Name
           properties: [
             {
               name: 'FirstName', // Entity's property name
-              fakerMethod: 'name.firstName' //Faker method which will be used for this property
+              fakerMethod: 'name.firstName' //Faker.js method which will be used for this property
             },
             {
               name: 'Address',
