@@ -85,6 +85,9 @@ sap.ui.define([
    * @private
    */
   SmartMockServer.prototype._getSmartRulesEntity = function(entityName) {
+    if (!this._smartRules) {
+      this._smartRules = [];
+    }
     return this._smartRules.find(function(item) {
       return item.entityName === entityName;
     });
@@ -101,7 +104,7 @@ sap.ui.define([
   SmartMockServer.prototype._getSmartRulesEntityProperty = function(entityName, propertyName) {
     const entityFound = this._getSmartRulesEntity(entityName);
     if (!entityFound) {
-      return null;
+      return entityFound;
     }
     return entityFound.properties.find(function(property) {
       return property.name === propertyName;

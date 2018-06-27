@@ -22,8 +22,6 @@
 <div id="content"></div>
 <script src="../../../../resources/sap/ui/thirdparty/qunit-2.js"></script>
 <script src="../../../../resources/sap/ui/qunit/qunit-coverage.js"></script>
-<script src="../../../../resources/sap/ui/thirdparty/sinon.js"></script>
-<script src="../../../../resources/sap/ui/thirdparty/sinon-qunit.js"></script>
 <script>
   if (window.blanket) {
     window.blanket.options('sap-ui-cover-only', 'openui5/smartmockserver');
@@ -33,7 +31,9 @@
 
   sap.ui.getCore().attachInitEvent(function() {
     sap.ui.require([
-        'test/unit/SmartMockServer'
+        'test/unit/SmartMockServer',
+        'sap/ui/thirdparty/sinon',
+        'sap/ui/thirdparty/sinon-qunit'
       ], function() {
         QUnit.start();
       }

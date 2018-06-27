@@ -35,7 +35,8 @@
 		"rootView": {
 			"viewName": "mlauffer.demo.openui5.smartmockserver.view.App",
 			"id": "rootApp",
-			"type": "XML"
+			"type": "XML",
+      "async": true
 		}
 	}
 }
