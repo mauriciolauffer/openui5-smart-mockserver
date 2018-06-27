@@ -1,8 +1,9 @@
 # openui5-smart-mockserver
 An extended and smarter version of UI5 MockServer for meaningful mock data.
 
-OpenUI5 Smart MockServer uses the open source library Faker.js to generate meaningful fake data.
+OpenUI5 Smart MockServer uses the open source library Faker.js to generate better fake data for testing your app or for a demo.
 You can use any available method in [Faker.js](https://github.com/marak/Faker.js/#api-methods).
+
 
 *Regular MockServer:* just a bunch of texts and numbers
 [<img src="mockserver.png">](https://raw.githubusercontent.com/mauriciolauffer/openui5-smart-mockserver/master/mockserver.png)
@@ -59,7 +60,7 @@ Add the library to *sap.ui5/dependencies/libs* and set its path in *sap.ui5/reso
 ```
 
 ### How to use
-Import openui5-smart-mockserver to your UI5 controller using *sap.ui.require*:
+Import openui5-smart-mockserver to your UI5 controller using *sap.ui.require* or  *sap.ui.define*:
 
 ```javascript
 sap.ui.define([

@@ -13,12 +13,10 @@ sap.ui.require([
   function buildMockServer() {
     const mockServerUrl = '/';
     const mockServer = new SmartMockServer({ rootUri: mockServerUrl });
-
     SmartMockServer.config({
       autoRespond: true,
       autoRespondAfter: 1
     });
-
     return mockServer;
   }
 
@@ -112,6 +110,13 @@ sap.ui.require([
         assert.deepEqual(smartMockEntity.Address, 'Address 1');
         assert.deepEqual(smartMockEntity.FirstName, 'FirstName 1');
       });
+
+      /*test('Should return the same received mock data and log an error on console', (assert) => {
+        //TODO
+        const smartMockEntity = this._mockserver._generateDataFromEntityWithSmartRules(entityType.name, {});
+        assert.deepEqual(smartMockEntity.Address, 'Address 1');
+        assert.deepEqual(smartMockEntity.FirstName, 'FirstName 1');
+      });*/
     });
 
     QUnit.module('_generatePropertyValueWithSmartRules', () => {
@@ -176,7 +181,7 @@ sap.ui.require([
       });
 
       test('Should return undefined Smart Rules for an Entity without Smart Rules', (assert) => {
-        const smartRules = this._mockserver._getSmartRulesEntityProperty(entityNameWithoutSmartRules);
+        const smartRules = this._mockserver._getSmartRulesEntityProperty(entityNameWithoutSmartRules, 'Address');
         assert.deepEqual(smartRules, undefined);
       });
 
@@ -213,9 +218,9 @@ sap.ui.require([
     });
 
     QUnit.module('setSmartRules', () => {
-      //TODO
-      test('Should instantiate the control', (assert) => {
+      test('Should set _smartRules property', (assert) => {
         this._mockserver.setSmartRules(getSmartRules());
+        assert.ok(this._mockserver._smartRules);
         assert.deepEqual(this._mockserver._smartRules instanceof Array, true);
       });
     });

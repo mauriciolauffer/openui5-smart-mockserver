@@ -37,20 +37,20 @@ sap.ui.define([
    */
   SmartMockServer.prototype._generateDataFromEntityWithSmartRules = function(entityName, entity) {
     try {
-      const entityWithSmartData = Object.assign({}, entity);
       if (this._hasSmartRulesEntity(entityName)) {
+        const entityWithSmartData = $.extend(true, {}, entity);
         Object.keys(entityWithSmartData).forEach(function(propertyName) {
           if (this._hasSmartRulesEntityProperty(entityName, propertyName)) {
             entityWithSmartData[propertyName] = this._generatePropertyValueWithSmartRules(entityName, propertyName);
           }
         }.bind(this));
+        return entityWithSmartData;
       }
-      return entityWithSmartData;
 
     } catch (err) {
       $.sap.log.error(err);
-      return entity;
     }
+    return entity;
   };
 
   /**
