@@ -8,16 +8,24 @@ sap.ui.require([
   'use strict';
 
   const entityNameWithoutSmartRules = 'Customer';
-  const entityType = {'name':'Employee','properties':[{'schema':'Edm','type':'Int32','name':'EmployeeID'},{'schema':'Edm','type':'String','name':'LastName'},{'schema':'Edm','type':'String','name':'FirstName'},{'schema':'Edm','type':'String','name':'Title'},{'schema':'Edm','type':'String','name':'TitleOfCourtesy'},{'schema':'Edm','type':'DateTime','name':'BirthDate'},{'schema':'Edm','type':'DateTime','name':'HireDate'},{'schema':'Edm','type':'String','name':'Address'},{'schema':'Edm','type':'String','name':'City'},{'schema':'Edm','type':'String','name':'Region'},{'schema':'Edm','type':'String','name':'PostalCode'},{'schema':'Edm','type':'String','name':'Country'},{'schema':'Edm','type':'String','name':'HomePhone'},{'schema':'Edm','type':'String','name':'Extension'},{'schema':'Edm','type':'Binary','name':'Photo'},{'schema':'Edm','type':'String','name':'Notes'},{'schema':'Edm','type':'Int32','name':'ReportsTo'},{'schema':'Edm','type':'String','name':'PhotoPath'}],'keys':['EmployeeID']};
+  const entityNameWithSmartRules = 'Employee';
+  const entityNameWithSapSemantics = 'SAPSemanticEntity';
+  const mockServer = buildMockServer(true);
 
-  function buildMockServer() {
+  function buildMockServer(withSmartRules) {
     const mockServerUrl = '/';
-    const mockServer = new SmartMockServer({ rootUri: mockServerUrl });
+    const metadataUrl = '../testdata/metadata.xml';
+    const server = new SmartMockServer({ rootUri: mockServerUrl });
     SmartMockServer.config({
       autoRespond: true,
       autoRespondAfter: 1
     });
-    return mockServer;
+    if (withSmartRules) {
+      server.setSmartRules(getSmartRules());
+    }
+    server.simulate(metadataUrl, { bGenerateMissingMockData: true });
+    server.start();
+    return server;
   }
 
   function getSmartRules() {
@@ -36,46 +44,36 @@ sap.ui.require([
     }];
   }
 
-  function setSmartRulesToMockServer(mockServer) {
-    mockServer.setSmartRules(getSmartRules());
+  function getEntityType(entityName) {
+    return mockServer._mEntityTypes[entityName];
   }
-
-  function startMockServer(mockServer) {
-    const metadataUrl = '../testdata/metadata.xml';
-    mockServer.simulate(metadataUrl, { bGenerateMissingMockData: true });
-    mockServer.start();
-  }
-
 
 
   const { test } = QUnit;
 
-  QUnit.module('SmartMockServer', function(hooks) {
-    hooks.beforeEach(() => { this._mockserver = buildMockServer(); });
-    hooks.afterEach(() => { this._mockserver.destroy(); });
-
+  QUnit.module('SmartMockServer', function() {
     QUnit.module('constructor', () => {
       test('Should instantiate SmartMockServer', (assert) => {
-        assert.deepEqual(this._mockserver instanceof MockServer, true);
+        assert.deepEqual(mockServer instanceof MockServer, true);
       });
       test('Should start SmartMockServer', (assert) => {
-        startMockServer(this._mockserver);
-        assert.deepEqual(this._mockserver.isStarted(), true);
+        assert.deepEqual(mockServer.isStarted(), true);
       });
     });
 
     QUnit.module('_generateDataFromEntityOriginal', () => {
       test('Should generate dumb mock data', (assert) => {
-        const mockEntity = this._mockserver._generateDataFromEntityOriginal(entityType, 1);
+        const entityType = getEntityType(entityNameWithoutSmartRules);
+        const mockEntity = mockServer._generateDataFromEntityOriginal(entityType, 1);
         assert.deepEqual(mockEntity.Address, 'Address 1');
-        assert.deepEqual(mockEntity.FirstName, 'FirstName 1');
+        assert.deepEqual(mockEntity.CompanyName, 'CompanyName 1');
       });
     });
 
     QUnit.module('_generateDataFromEntity', () => {
       test('Should generate smart mock data only for properties with Smart Rules assigned to', (assert) => {
-        setSmartRulesToMockServer(this._mockserver);
-        const mockEntity = this._mockserver._generateDataFromEntity(entityType, 1);
+        const entityType = getEntityType(entityNameWithSmartRules);
+        const mockEntity = mockServer._generateDataFromEntity(entityType, 1);
         assert.ok(mockEntity.Address);
         assert.ok(mockEntity.FirstName);
         assert.ok(mockEntity.Country);
@@ -83,19 +81,47 @@ sap.ui.require([
         assert.notEqual(mockEntity.FirstName, 'FirstName 1');
         assert.deepEqual(mockEntity.Country, 'Country 1');
       });
+
+      test('Should generate dumb mock data because there are no Smart Rules', (assert) => {
+        const entityType = getEntityType(entityNameWithoutSmartRules);
+        const mockEntity = mockServer._generateDataFromEntity(entityType, 1);
+        assert.deepEqual(mockEntity.Address, 'Address 1');
+        assert.deepEqual(mockEntity.CompanyName, 'CompanyName 1');
+      });
     });
 
-    test('Should generate dumb mock data because there are no Smart Rules', (assert) => {
-      const mockEntity = this._mockserver._generateDataFromEntity(entityType, 1);
-      assert.deepEqual(mockEntity.Address, 'Address 1');
-      assert.deepEqual(mockEntity.FirstName, 'FirstName 1');
+    QUnit.module('_generateDataWithSmartRules', () => {
+      test('Should generate smart mock data only for properties with Smart Rules assigned to', (assert) => {
+        const entityType = getEntityType(entityNameWithSmartRules);
+        const mockEntity = mockServer._generateDataFromEntityOriginal(entityType, 1);
+        const smartMockEntity = mockServer._generateDataWithSmartRules(entityType.name, mockEntity);
+        assert.ok(smartMockEntity.Address);
+        assert.ok(smartMockEntity.FirstName);
+        assert.ok(smartMockEntity.Country);
+        assert.notEqual(smartMockEntity.Address, 'Address 1');
+        assert.notEqual(smartMockEntity.FirstName, 'FirstName 1');
+        assert.deepEqual(smartMockEntity.Country, 'Country 1');
+      });
+
+      test('Should generate dumb mock data because there are no Smart Rules', (assert) => {
+        const entityType = getEntityType(entityNameWithoutSmartRules);
+        const mockEntity = mockServer._generateDataFromEntityOriginal(entityType, 1);
+        const smartMockEntity = mockServer._generateDataWithSmartRules(entityType.name, mockEntity);
+        assert.deepEqual(smartMockEntity.Address, 'Address 1');
+        assert.deepEqual(smartMockEntity.CompanyName, 'CompanyName 1');
+      });
+
+      test('Should have initial Smart Rules', (assert) => {
+        const server = buildMockServer(false);
+        assert.deepEqual(server._smartRules, []);
+      });
     });
 
     QUnit.module('_generateDataFromEntityWithSmartRules', () => {
       test('Should generate smart mock data only for properties with Smart Rules assigned to', (assert) => {
-        setSmartRulesToMockServer(this._mockserver);
-        const mockEntity = this._mockserver._generateDataFromEntityOriginal(entityType, 1);
-        const smartMockEntity = this._mockserver._generateDataFromEntityWithSmartRules(entityType.name, mockEntity);
+        const entityType = getEntityType(entityNameWithSmartRules);
+        const mockEntity = mockServer._generateDataFromEntityOriginal(entityType, 1);
+        const smartMockEntity = mockServer._generateDataFromEntityWithSmartRules(entityType.name, mockEntity);
         assert.ok(smartMockEntity.Address);
         assert.ok(smartMockEntity.FirstName);
         assert.ok(mockEntity.Country);
@@ -104,16 +130,18 @@ sap.ui.require([
         assert.deepEqual(mockEntity.Country, 'Country 1');
       });
 
-      test('Should return the same received mock data', (assert) => {
-        const mockEntity = this._mockserver._generateDataFromEntityOriginal(entityType, 1);
-        const smartMockEntity = this._mockserver._generateDataFromEntityWithSmartRules(entityType.name, mockEntity);
+      test('Should return the same received mock data, no changes', (assert) => {
+        const entityType = getEntityType(entityNameWithoutSmartRules);
+        const mockEntity = mockServer._generateDataFromEntityOriginal(entityType, 1);
+        const smartMockEntity = mockServer._generateDataFromEntityWithSmartRules(entityType.name, mockEntity);
         assert.deepEqual(smartMockEntity.Address, 'Address 1');
-        assert.deepEqual(smartMockEntity.FirstName, 'FirstName 1');
+        assert.deepEqual(mockEntity.CompanyName, 'CompanyName 1');
       });
 
       /*test('Should return the same received mock data and log an error on console', (assert) => {
         //TODO
-        const smartMockEntity = this._mockserver._generateDataFromEntityWithSmartRules(entityType.name, {});
+        const entityType = getEntityType(entityNameWithSmartRules);
+        const smartMockEntity = mockserver._generateDataFromEntityWithSmartRules(entityType.name, {});
         assert.deepEqual(smartMockEntity.Address, 'Address 1');
         assert.deepEqual(smartMockEntity.FirstName, 'FirstName 1');
       });*/
@@ -121,8 +149,8 @@ sap.ui.require([
 
     QUnit.module('_generatePropertyValueWithSmartRules', () => {
       test('Should return a value', (assert) => {
-        setSmartRulesToMockServer(this._mockserver);
-        const generatedValue = this._mockserver._generatePropertyValueWithSmartRules(entityType.name, 'Address');
+        const entityType = getEntityType(entityNameWithSmartRules);
+        const generatedValue = mockServer._generatePropertyValueWithSmartRules(entityType.name, 'Address');
         assert.ok(generatedValue);
         assert.notEqual(generatedValue, 'Address 1');
       });
@@ -130,7 +158,8 @@ sap.ui.require([
       test('Should return an error', (assert) => {
         let errorRaised;
         try {
-          this._mockserver._generatePropertyValueWithSmartRules(entityType.name, 'Country');
+          const entityType = getEntityType(entityNameWithSmartRules);
+          mockServer._generatePropertyValueWithSmartRules(entityType.name, 'Country');
 
         } catch (err) {
           errorRaised = err;
@@ -140,17 +169,17 @@ sap.ui.require([
       });
     });
 
-    QUnit.module('_getFakerValue', () => {
-      test('Should instantiate the control', (assert) => {
-        const generatedValue = this._mockserver._getFakerValue('name.firstName');
+    QUnit.module('_callFakerMethod', () => {
+      test('Should call a Faker method and return a value', (assert) => {
+        const generatedValue = mockServer._callFakerMethod('name.firstName');
         assert.ok(generatedValue);
       });
 
-      test('Should return an error', (assert) => {
+      test('Should call an invalid Faker method and return an error', (assert) => {
         let errorRaised;
         const fakerMethodInvalid = 'name.ThisFakerMethodDoesNotExist';
         try {
-          this._mockserver._getFakerValue(fakerMethodInvalid);
+          mockServer._callFakerMethod(fakerMethodInvalid);
 
         } catch (err) {
           errorRaised = err;
@@ -162,66 +191,107 @@ sap.ui.require([
 
     QUnit.module('_getSmartRulesEntity', () => {
       test('Should return undefined Smart Rules for an Entity without Smart Rules', (assert) => {
-        const smartRules = this._mockserver._getSmartRulesEntity(entityNameWithoutSmartRules);
+        const smartRules = mockServer._getSmartRulesEntity(entityNameWithoutSmartRules);
         assert.deepEqual(smartRules, undefined);
       });
 
       test('Should return Smart Rules assigned to an Entity', (assert) => {
-        setSmartRulesToMockServer(this._mockserver);
-        const smartRules = this._mockserver._getSmartRulesEntity(entityType.name);
+        const entityType = getEntityType(entityNameWithSmartRules);
+        const smartRules = mockServer._getSmartRulesEntity(entityType.name);
         assert.deepEqual(smartRules, getSmartRules()[0]);
       });
     });
 
     QUnit.module('_getSmartRulesEntityProperty', () => {
       test('Should return Smart Rules assigned to an Entity Property', (assert) => {
-        setSmartRulesToMockServer(this._mockserver);
-        const smartRules = this._mockserver._getSmartRulesEntityProperty(entityType.name, 'Address');
+        const entityType = getEntityType(entityNameWithSmartRules);
+        const smartRules = mockServer._getSmartRulesEntityProperty(entityType.name, 'Address');
         assert.deepEqual(smartRules, getSmartRules()[0].properties[1]);
       });
 
       test('Should return undefined Smart Rules for an Entity without Smart Rules', (assert) => {
-        const smartRules = this._mockserver._getSmartRulesEntityProperty(entityNameWithoutSmartRules, 'Address');
+        const smartRules = mockServer._getSmartRulesEntityProperty(entityNameWithoutSmartRules, 'Address');
         assert.deepEqual(smartRules, undefined);
       });
 
       test('Should return undefined Smart Rules for an Entity Property without Smart Rules', (assert) => {
-        const smartRules = this._mockserver._getSmartRulesEntityProperty(entityType.name, 'Country');
+        const entityType = getEntityType(entityNameWithSmartRules);
+        const smartRules = mockServer._getSmartRulesEntityProperty(entityType.name, 'Country');
         assert.deepEqual(smartRules, undefined);
       });
     });
 
     QUnit.module('_hasSmartRulesEntity', () => {
       test('Should return true for an Entity with Smart Rules', (assert) => {
-        setSmartRulesToMockServer(this._mockserver);
-        const hasSmartRules = this._mockserver._hasSmartRulesEntity(entityType.name);
+        const entityType = getEntityType(entityNameWithSmartRules);
+        const hasSmartRules = mockServer._hasSmartRulesEntity(entityType.name);
         assert.deepEqual(hasSmartRules, true);
       });
 
       test('Should return false for an Entity without Smart Rules', (assert) => {
-        const hasSmartRules = this._mockserver._hasSmartRulesEntity(entityNameWithoutSmartRules);
+        const hasSmartRules = mockServer._hasSmartRulesEntity(entityNameWithoutSmartRules);
         assert.deepEqual(hasSmartRules, false);
       });
     });
 
     QUnit.module('_hasSmartRulesEntityProperty', () => {
       test('Should return true for an Entity Property with Smart Rules', (assert) => {
-        setSmartRulesToMockServer(this._mockserver);
-        const hasSmartRules = this._mockserver._hasSmartRulesEntityProperty(entityType.name, 'Address');
+        const entityType = getEntityType(entityNameWithSmartRules);
+        const hasSmartRules = mockServer._hasSmartRulesEntityProperty(entityType.name, 'Address');
         assert.deepEqual(hasSmartRules, true);
       });
 
       test('Should return false for an Entity Property without Smart Rules', (assert) => {
-        const hasSmartRules = this._mockserver._hasSmartRulesEntityProperty(entityType.name, 'Country');
+        const entityType = getEntityType(entityNameWithSmartRules);
+        const hasSmartRules = mockServer._hasSmartRulesEntityProperty(entityType.name, 'Country');
         assert.deepEqual(hasSmartRules, false);
+      });
+    });
+
+    QUnit.module('_getFakerMethodFromSapSemantics', () => {
+      test('Should return the Faker method mapped to the SAP Semantics', (assert) => {
+        assert.deepEqual(mockServer.SAP_SEMANTICS_TO_FAKER_METHOD_MAPPING instanceof Array, true);
+        assert.deepEqual(mockServer.SAP_SEMANTICS_TO_FAKER_METHOD_MAPPING.length > 0, true);
+        mockServer.SAP_SEMANTICS_TO_FAKER_METHOD_MAPPING.forEach(function(item) {
+          const fakerMethod = mockServer._getFakerMethodFromSapSemantics(item.sapSemantics);
+          assert.ok(fakerMethod);
+        });
+      });
+
+      test('Should return undefined for SAP Semantics without a mapping', (assert) => {
+        const sapSemanticsWithoutMapping = 'unit-of-measure';
+        const mapping = mockServer._getFakerMethodFromSapSemantics(sapSemanticsWithoutMapping);
+        assert.deepEqual(mapping, undefined);
+      });
+    });
+
+    QUnit.module('_generateDataFromEntityWithSapSemanticsAnnotations', () => {
+      test('Should generate smart mock data only for properties with a SAP Semantics Annotations assigned to', (assert) => {
+        const entityType = getEntityType(entityNameWithSapSemantics);
+        const mockEntity = mockServer._generateDataFromEntityOriginal(entityType, 1);
+        const smartMockEntity = mockServer._generateDataFromEntityWithSapSemanticsAnnotations(entityType.name, mockEntity);
+        assert.ok(smartMockEntity.street);
+        assert.ok(smartMockEntity.givenname);
+        assert.ok(mockEntity.RegularField);
+        assert.notEqual(smartMockEntity.street, 'Address 1');
+        assert.notEqual(smartMockEntity.givenname, 'FirstName 1');
+        assert.deepEqual(mockEntity.RegularField, 'RegularField 1');
+      });
+
+      test('Should return the same received mock data, no changes', (assert) => {
+        const entityType = getEntityType(entityNameWithoutSmartRules);
+        const mockEntity = mockServer._generateDataFromEntityOriginal(entityType, 1);
+        const smartMockEntity = mockServer._generateDataFromEntityWithSapSemanticsAnnotations(entityType.name, mockEntity);
+        assert.deepEqual(smartMockEntity.Address, 'Address 1');
+        assert.deepEqual(mockEntity.CompanyName, 'CompanyName 1');
       });
     });
 
     QUnit.module('setSmartRules', () => {
       test('Should set _smartRules property', (assert) => {
-        this._mockserver.setSmartRules(getSmartRules());
-        assert.ok(this._mockserver._smartRules);
-        assert.deepEqual(this._mockserver._smartRules instanceof Array, true);
+        //mockserver.setSmartRules(getSmartRules());
+        assert.ok(mockServer._smartRules);
+        assert.deepEqual(mockServer._smartRules instanceof Array, true);
       });
     });
 

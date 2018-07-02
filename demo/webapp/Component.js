@@ -9,7 +9,7 @@ sap.ui.define([
     },
 
     init: function () {
-      this.getModel().setSizeLimit(15); //Load only 15 entries!
+      this.getModel().setSizeLimit(5); //Load only 5 entries!
       UIComponent.prototype.init.apply(this, arguments);
     },
 

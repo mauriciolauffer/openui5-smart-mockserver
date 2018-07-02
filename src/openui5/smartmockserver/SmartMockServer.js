@@ -9,6 +9,121 @@ sap.ui.define([
 
   SmartMockServer.prototype._generateDataFromEntityOriginal = SmartMockServer.prototype._generateDataFromEntity;
 
+  /*
+  Mapping between SAP Semantics annotations and Faker methods
+  https://wiki.scn.sap.com/wiki/display/EmTech/SAP+Annotations+for+OData+Version+2.0#SAPAnnotationsforODataVersion2.0-Property_sap_semanticsAttributesap:semantics
+   */
+  SmartMockServer.prototype.SAP_SEMANTICS_TO_FAKER_METHOD_MAPPING = [
+    {
+      sapSemantics: 'city',
+      fakerMethod: 'address.city'
+    },
+    {
+      sapSemantics: 'country',
+      fakerMethod: 'address.country'
+    },
+    {
+      sapSemantics: 'geo-lat',
+      fakerMethod: 'address.latitude'
+    },
+    {
+      sapSemantics: 'geo-lon',
+      fakerMethod: 'address.longitude'
+    },
+    {
+      sapSemantics: 'region',
+      fakerMethod: 'address.state'
+    },
+    {
+      sapSemantics: 'street',
+      fakerMethod: 'address.streetAddress'
+    },
+    {
+      sapSemantics: 'zip',
+      fakerMethod: 'address.zipCode'
+    },
+    {
+      sapSemantics: 'org',
+      fakerMethod: 'company.companyName'
+    },
+    {
+      sapSemantics: 'currency-code',
+      fakerMethod: 'finance.currencyCode'
+    },
+    {
+      sapSemantics: 'photo',
+      fakerMethod: 'image.avatar'
+    },
+    {
+      sapSemantics: 'bcc',
+      fakerMethod: 'internet.email'
+    },
+    {
+      sapSemantics: 'cc',
+      fakerMethod: 'internet.email'
+    },
+    {
+      sapSemantics: 'email',
+      fakerMethod: 'internet.email'
+    },
+    {
+      sapSemantics: 'from',
+      fakerMethod: 'internet.email'
+    },
+    {
+      sapSemantics: 'sender',
+      fakerMethod: 'internet.email'
+    },
+    {
+      sapSemantics: 'to',
+      fakerMethod: 'internet.email'
+    },
+    {
+      sapSemantics: 'url',
+      fakerMethod: 'internet.url'
+    },
+    {
+      sapSemantics: 'body',
+      fakerMethod: 'lorem.paragraphs'
+    },
+    {
+      sapSemantics: 'subject',
+      fakerMethod: 'lorem.sentence'
+    },
+    {
+      sapSemantics: 'name',
+      fakerMethod: 'name.findName'
+    },
+    {
+      sapSemantics: 'givenname',
+      fakerMethod: 'name.firstName'
+    },
+    {
+      sapSemantics: 'middlename',
+      fakerMethod: 'name.firstName'
+    },
+    {
+      sapSemantics: 'title',
+      fakerMethod: 'name.jobTitle'
+    },
+    {
+      sapSemantics: 'familyname',
+      fakerMethod: 'name.lastName'
+    },
+    {
+      sapSemantics: 'honorific',
+      fakerMethod: 'name.prefix'
+    },
+    {
+      sapSemantics: 'suffix',
+      fakerMethod: 'name.suffix'
+    },
+    {
+      sapSemantics: 'tel',
+      fakerMethod: 'phone.phoneNumber'
+    }
+  ];
+
   /**
    * Generate some mock data for a specific entityType. String value will be
    * based on the property name and an index Integer / Decimal value will be
@@ -23,8 +138,25 @@ sap.ui.define([
    */
   SmartMockServer.prototype._generateDataFromEntity = function(oEntityType, iIndex, mComplexTypes) {
     let entity = SmartMockServer.prototype._generateDataFromEntityOriginal.apply(this, arguments);
-    entity = this._generateDataFromEntityWithSmartRules(oEntityType.name, entity);
-    return entity;
+    return this._generateDataWithSmartRules(oEntityType.name, entity);
+  };
+
+  /**
+   * Generate smart mock data for a specific Entity based on the rules set.
+   *
+   * @param {string} entityName the Entity name used to generate the data
+   * @param {object} entity the Entity object containing its properties and values
+   * @return {object} the mocked Entity with smart content
+   * @private
+   */
+  SmartMockServer.prototype._generateDataWithSmartRules = function(entityName, entity) {
+    if (!this._smartRules) {
+      this._smartRules = [];
+    }
+    let entityWithSmartData = $.extend(true, {}, entity);
+    entityWithSmartData = this._generateDataFromEntityWithSapSemanticsAnnotations(entityName, entityWithSmartData);
+    entityWithSmartData = this._generateDataFromEntityWithSmartRules(entityName, entityWithSmartData);
+    return entityWithSmartData;
   };
 
   /**
@@ -54,6 +186,55 @@ sap.ui.define([
   };
 
   /**
+   * Generate smart mock data for an Entity based on the SAP semantics set for the properties.
+   *
+   * @param {string} entityName the Entity name used to generate the data
+   * @param {object} entity the Entity object containing its properties and values
+   * @return {object} the mocked Entity with smart content
+   * @private
+   */
+  SmartMockServer.prototype._generateDataFromEntityWithSapSemanticsAnnotations = function(entityName, entity) {
+    try {
+      const entityQuery = 'EntityType[Name="' + entityName + '"]';
+      const propertyQuery = 'Property[sap\\:semantics]';
+      const propertiesWithSemantics = $(this._oMetadata).find(entityQuery).find(propertyQuery);
+      if (propertiesWithSemantics && propertiesWithSemantics.length && propertiesWithSemantics.length > 0) {
+        const entityWithSmartData = $.extend(true, {}, entity);
+        propertiesWithSemantics.each(function(index, propertyXml) {
+          const property = $(propertyXml);
+          const fakerMethod = this._getFakerMethodFromSapSemantics(property.attr('sap:semantics'));
+          if (fakerMethod) {
+            entityWithSmartData[property.attr('Name')] = this._callFakerMethod(fakerMethod);
+          }
+        }.bind(this));
+        return entityWithSmartData;
+      }
+
+    } catch (err) {
+      $.sap.log.error(err);
+    }
+    return entity;
+  };
+
+  /**
+   * Gets the faker method assigned to the SAP Semantics Annotations
+   *
+   * @param {string} sapSemantics SAP Semantics Annotations
+   * @return {string} the Faker method assigned to the SAP Semantics Annotations
+   * @private
+   */
+  SmartMockServer.prototype._getFakerMethodFromSapSemantics = function(sapSemantics) {
+    const mapping = this.SAP_SEMANTICS_TO_FAKER_METHOD_MAPPING.find(function(mapping) {
+      return mapping.sapSemantics === sapSemantics;
+    });
+    if (mapping) {
+      return mapping.fakerMethod;
+    } else {
+      return mapping;
+    }
+  };
+
+  /**
    * Generate smart mock data for a specific Entity property based on the rules set.
    *
    * @param {string} entityName the Entity name used to generate the data
@@ -63,7 +244,7 @@ sap.ui.define([
    */
   SmartMockServer.prototype._generatePropertyValueWithSmartRules = function(entityName, propertyName) {
     const propertyFound = this._getSmartRulesEntityProperty(entityName, propertyName);
-    return this._getFakerValue(propertyFound.fakerMethod);
+    return this._callFakerMethod(propertyFound.fakerMethod);
   };
 
   /**
@@ -73,7 +254,7 @@ sap.ui.define([
    * @return {object} the result of the Faker method defined in the smart rule (can be any type)
    * @private
    */
-  SmartMockServer.prototype._getFakerValue = function(fakerMethod) {
+  SmartMockServer.prototype._callFakerMethod = function(fakerMethod) {
     return faker.fake('{{' + fakerMethod + '}}');
   };
 
@@ -85,9 +266,6 @@ sap.ui.define([
    * @private
    */
   SmartMockServer.prototype._getSmartRulesEntity = function(entityName) {
-    if (!this._smartRules) {
-      this._smartRules = [];
-    }
     return this._smartRules.find(function(item) {
       return item.entityName === entityName;
     });

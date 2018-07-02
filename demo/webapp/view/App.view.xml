@@ -3,8 +3,159 @@
     <Shell>
         <App>
             <Page id="page" title="{i18n>TITLE}">
-                <Table id="table" headerText="{i18n>Employees}" items="{/Employees}">
+                <Table headerText="{i18n>TitlePerson}" items="{/SAPSemanticEntitySet}">
                     <columns>
+                        <Column hAlign="Center" width="3rem">
+                            <Text text="photo" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="givenname" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="middlename" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="familyname" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="name" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="honorific" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="title" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="suffix" />
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <Image src="{photo}" width="32px" heigth="32px" densityAware="false" />
+                                <Text text="{givenname}" />
+                                <Text text="{middlename}" />
+                                <Text text="{familyname}" />
+                                <Text text="{name}" />
+                                <Text text="{honorific}" />
+                                <Text text="{title}" />
+                                <Text text="{suffix}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+                <Table headerText="{i18n>TitleAddress}" items="{/SAPSemanticEntitySet}">
+                    <columns>
+                        <Column hAlign="Center">
+                            <Text text="street" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="city" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="region" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="zip" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="country" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="geo-lat" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="geo-lon" />
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <Text text="{street}" />
+                                <Text text="{city}" />
+                                <Text text="{region}" />
+                                <Text text="{zip}" />
+                                <Text text="{country}" />
+                                <Text text="{geo_lat}" />
+                                <Text text="{geo_lon}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+                <Table headerText="{i18n>TitleEmails}" items="{/SAPSemanticEntitySet}">
+                    <columns>
+                        <Column hAlign="Center" width="20%">
+                            <Text text="body" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="subject" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="bcc" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="cc" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="email" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="from" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="sender" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="to" />
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <Text text="{body}" />
+                                <Text text="{subject}" />
+                                <Text text="{bcc}" />
+                                <Text text="{cc}" />
+                                <Text text="{email}" />
+                                <Text text="{from}" />
+                                <Text text="{sender}" />
+                                <Text text="{to}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+                <Table headerText="{i18n>TitleOthers}" items="{/SAPSemanticEntitySet}">
+                    <columns>
+                        <Column hAlign="Center">
+                            <Text text="org" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="currency-code" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="tel" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="url" />
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <Text text="{org}" />
+                                <Text text="{currency_code}" />
+                                <Text text="{tel}" />
+                                <Text text="{url}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+                <Table id="table" headerText="{i18n>TitleManual}" items="{/Employees}">
+                    <columns>
+                        <Column hAlign="Center" width="3rem">
+                            <Text text="{i18n>Avatar}" />
+                        </Column>
                         <Column hAlign="Center">
                             <Text text="{i18n>Name}" />
                         </Column>
@@ -30,10 +181,8 @@
                     <items>
                         <ColumnListItem>
                             <cells>
-                                <HBox>
-                                    <Image src="{PhotoPath}" width="32px" heigth="32px" densityAware="false" />
-                                    <Text text="{FirstName} {LastName}" />
-                                </HBox>
+                                <Image src="{PhotoPath}" width="32px" heigth="32px" densityAware="false" />
+                                <Text text="{FirstName} {LastName}" />
                                 <Text text="{Title}" />
                                 <Text text="{Address}" />
                                 <Text text="{City}, {Region}" />
