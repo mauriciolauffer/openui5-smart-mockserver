@@ -15,17 +15,18 @@ In case your metadata.xml doesn't have SAP Semantics annotations, you can set Sm
 [<img src="smartmockserver.png">](https://raw.githubusercontent.com/mauriciolauffer/openui5-smart-mockserver/master/smartmockserver.png)
 
 
-##OData SAP Semantics Annotations
+## OData SAP Semantics Annotations
 OData SAP Semantic Annotations tell which of the OData properties contain e.g. a phone number, a part of a name or address, or something related to a calendar event or an analytic query. This is important for apps running on mobile devices that want to seamlessly integrate into contacts, calendar, and telephony.
 https://wiki.scn.sap.com/wiki/display/EmTech/SAP+Annotations+for+OData+Version+2.0#SAPAnnotationsforODataVersion2.0-Property_sap_semanticsAttributesap:semantics
 
-Smart MockServer will generate data for these properties automatically, but not for all of them, have a look at the demo to see the supported *sap:semantics*.
+Smart MockServer will generate data for these properties automatically, but not for all of them, have a look at the demo to see the supported *sap:semantics* annotations.
 
 
 ## Faker.js
 For any references, please follow
 
 Faker.js: https://github.com/marak/Faker.js
+
 Faker.js methods: https://github.com/marak/Faker.js/#api-methods
 
 
