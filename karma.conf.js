@@ -74,6 +74,6 @@ module.exports = function(config) {
     browsers: ['ChromeHeadless'],
     reporters: ['progress', 'coverage'],
     reportSlowerThan: 200,
-    singleRun: false
+    singleRun: true
   });
 };
