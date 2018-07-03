@@ -150,13 +150,19 @@ sap.ui.define([
    * @private
    */
   SmartMockServer.prototype._generateDataWithSmartRules = function(entityName, entity) {
-    if (!this._smartRules) {
-      this._smartRules = [];
+    try {
+      if (!this._smartRules) {
+        this._smartRules = [];
+      }
+      let entityWithSmartData = $.extend(true, {}, entity);
+      entityWithSmartData = this._generateDataFromEntityWithSapSemanticsAnnotations(entityName, entityWithSmartData);
+      entityWithSmartData = this._generateDataFromEntityWithSmartRules(entityName, entityWithSmartData);
+      return entityWithSmartData;
+
+    } catch (err) {
+      $.sap.log.error(err);
+      return entity;
     }
-    let entityWithSmartData = $.extend(true, {}, entity);
-    entityWithSmartData = this._generateDataFromEntityWithSapSemanticsAnnotations(entityName, entityWithSmartData);
-    entityWithSmartData = this._generateDataFromEntityWithSmartRules(entityName, entityWithSmartData);
-    return entityWithSmartData;
   };
 
   /**
@@ -168,21 +174,17 @@ sap.ui.define([
    * @private
    */
   SmartMockServer.prototype._generateDataFromEntityWithSmartRules = function(entityName, entity) {
-    try {
-      if (this._hasSmartRulesEntity(entityName)) {
-        const entityWithSmartData = $.extend(true, {}, entity);
-        Object.keys(entityWithSmartData).forEach(function(propertyName) {
-          if (this._hasSmartRulesEntityProperty(entityName, propertyName)) {
-            entityWithSmartData[propertyName] = this._generatePropertyValueWithSmartRules(entityName, propertyName);
-          }
-        }.bind(this));
-        return entityWithSmartData;
-      }
-
-    } catch (err) {
-      $.sap.log.error(err);
+    if (this._hasSmartRulesEntity(entityName)) {
+      const entityWithSmartData = $.extend(true, {}, entity);
+      Object.keys(entityWithSmartData).forEach(function(propertyName) {
+        if (this._hasSmartRulesEntityProperty(entityName, propertyName)) {
+          entityWithSmartData[propertyName] = this._generatePropertyValueWithSmartRules(entityName, propertyName);
+        }
+      }.bind(this));
+      return entityWithSmartData;
+    } else {
+      return entity;
     }
-    return entity;
   };
 
   /**
@@ -194,26 +196,22 @@ sap.ui.define([
    * @private
    */
   SmartMockServer.prototype._generateDataFromEntityWithSapSemanticsAnnotations = function(entityName, entity) {
-    try {
-      const entityQuery = 'EntityType[Name="' + entityName + '"]';
-      const propertyQuery = 'Property[sap\\:semantics]';
-      const propertiesWithSemantics = $(this._oMetadata).find(entityQuery).find(propertyQuery);
-      if (propertiesWithSemantics && propertiesWithSemantics.length && propertiesWithSemantics.length > 0) {
-        const entityWithSmartData = $.extend(true, {}, entity);
-        propertiesWithSemantics.each(function(index, propertyXml) {
-          const property = $(propertyXml);
-          const fakerMethod = this._getFakerMethodFromSapSemantics(property.attr('sap:semantics'));
-          if (fakerMethod) {
-            entityWithSmartData[property.attr('Name')] = this._callFakerMethod(fakerMethod);
-          }
-        }.bind(this));
-        return entityWithSmartData;
-      }
-
-    } catch (err) {
-      $.sap.log.error(err);
+    const entityQuery = 'EntityType[Name="' + entityName + '"]';
+    const propertyQuery = 'Property[sap\\:semantics]';
+    const propertiesWithSemantics = $(this._oMetadata).find(entityQuery).find(propertyQuery);
+    if (propertiesWithSemantics && propertiesWithSemantics.length && propertiesWithSemantics.length > 0) {
+      const entityWithSmartData = $.extend(true, {}, entity);
+      propertiesWithSemantics.each(function(index, propertyXml) {
+        const property = $(propertyXml);
+        const fakerMethod = this._getFakerMethodFromSapSemantics(property.attr('sap:semantics'));
+        if (fakerMethod) {
+          entityWithSmartData[property.attr('Name')] = this._callFakerMethod(fakerMethod);
+        }
+      }.bind(this));
+      return entityWithSmartData;
+    } else {
+      return entity;
     }
-    return entity;
   };
 
   /**
