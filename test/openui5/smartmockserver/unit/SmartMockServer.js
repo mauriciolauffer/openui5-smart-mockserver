@@ -158,14 +158,6 @@ sap.ui.require([
           assert.deepEqual(smartMockEntity.Address, 'Address 1');
           assert.deepEqual(mockEntity.CompanyName, 'CompanyName 1');
         });
-
-        /*test('Should return the same received mock data and log an error on console', (assert) => {
-          //TODO
-          const entityType = getEntityType(entityNameWithSmartRules);
-          const smartMockEntity = mockserver._generateDataFromEntityWithSmartRules(entityType.name, {});
-          assert.deepEqual(smartMockEntity.Address, 'Address 1');
-          assert.deepEqual(smartMockEntity.FirstName, 'FirstName 1');
-        });*/
       });
 
       QUnit.module('_generatePropertyValueWithSmartRules', () => {
