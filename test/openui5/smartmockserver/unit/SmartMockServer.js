@@ -310,11 +310,16 @@ sap.ui.require([
 
       QUnit.module('setSmartRules', () => {
         test('Should set _smartRules property', (assert) => {
-          //mockserver.setSmartRules(getSmartRules());
+          mockServer.setSmartRules(getSmartRules());
           assert.ok(mockServer._smartRules);
           assert.deepEqual(mockServer._smartRules instanceof Array, true);
+          assert.deepEqual(mockServer._smartRules, getSmartRules());
+        });
+
+        test('Should set default _smartRules property', (assert) => {
+          mockServer.setSmartRules();
+          assert.deepEqual(mockServer._smartRules, []);
         });
       });
-
     });
 });

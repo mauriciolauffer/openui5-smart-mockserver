@@ -21,9 +21,7 @@ module.exports = function(config) {
             'test.unit': 'base/test/openui5/smartmockserver/unit'
           }
         },
-        tests: [
-          'test/unit/allTests'
-        ]
+        tests: ['test/unit/allTests']
       },
       clearContext: false,
       qunit: {
@@ -56,10 +54,25 @@ module.exports = function(config) {
     proxies: {
       '/testdata/': '/base/test/openui5/smartmockserver/testdata/'
     },
+    preprocessors: {
+      'src/**/SmartMockServer.js': ['coverage']
+    },
+    coverageReporter: {
+      type : 'lcov',
+      dir : 'coverage/',
+      check: {
+        global: {
+          statements: 90,
+          branches: 90,
+          functions: 90,
+          lines: 90
+        }
+      }
+    },
     autoWatch: true,
     useIframe: false,
     browsers: ['ChromeHeadless'],
-    reporters: ['progress'],
+    reporters: ['progress', 'coverage'],
     reportSlowerThan: 200,
     singleRun: false
   });

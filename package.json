@@ -1,7 +1,7 @@
 {
   "name": "openui5-smart-mockserver",
   "version": "0.1.2",
-  "description": "An extended version of UI5 MockServer using Faker.js for meaningful mock data.",
+  "description": "An extended version of UI5 MockServer which generates meaningful mock data.",
   "homepage": "https://github.com/mauriciolauffer/openui5-smart-mockserver#readme",
   "author": "Mauricio Lauffer",
   "license": "MIT",
@@ -18,7 +18,7 @@
     "smart",
     "smarter"
   ],
-  "main": "dist/openui5/smartmockserver",
+  "main": "dist/openui5/smartmockserver/library-preload.js",
   "devDependencies": {
     "eslint": "^5.0.1",
     "grunt": "^1.0.1",
@@ -36,7 +36,10 @@
   },
   "scripts": {
     "test": "karma start",
-    "build": "grunt build"
+    "build": "grunt build",
+    "preversion": "npm test",
+    "version": "npm run build",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
