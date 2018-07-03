@@ -1,6 +1,6 @@
 {
   "name": "openui5-smart-mockserver",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "An extended version of UI5 MockServer using Faker.js for meaningful mock data.",
   "homepage": "https://github.com/mauriciolauffer/openui5-smart-mockserver#readme",
   "author": "Mauricio Lauffer",
