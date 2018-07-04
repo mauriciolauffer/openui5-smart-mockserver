@@ -41,7 +41,6 @@
     "test": "karma start",
     "build": "grunt build",
     "preversion": "npm test",
-    "version": "npm run build",
     "postversion": "git push && git push --tags"
   },
   "repository": {

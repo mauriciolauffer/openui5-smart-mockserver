@@ -55,7 +55,7 @@ module.exports = function(config) {
       '/testdata/': '/base/test/openui5/smartmockserver/testdata/'
     },
     preprocessors: {
-      'src/**/SmartMockServer.js': ['coverage']
+      'src/**/!(thirdparty)/*.js': ['coverage']
     },
     coverageReporter: {
       type : 'lcov',
