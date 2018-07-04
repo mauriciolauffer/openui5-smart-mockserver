@@ -27,14 +27,17 @@
     "karma": "^2.0.4",
     "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.2",
+    "karma-coveralls": "^1.2.1",
     "karma-openui5": "^0.2.3",
     "karma-qunit": "^2.1.0",
     "qunit": "^2.6.1"
   },
   "dependencies": {
+    "@openui5/sap.ui.core": "^1.56.2",
     "faker": "^4.1.0"
   },
   "scripts": {
+    "start": "ui5 serve",
     "test": "karma start",
     "build": "grunt build",
     "preversion": "npm test",

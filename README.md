@@ -70,8 +70,8 @@ Add the library to *sap.ui5/dependencies/libs* and set its path in *sap.ui5/reso
 ```
 
 ### How to use
-You use Smart MockServer just like you use your old MockServer!
-Import openui5-smart-mockserver to your UI5 controller using *sap.ui.require* or  *sap.ui.define*:
+You can use Smart MockServer just like you use your old MockServer!
+Import openui5-smart-mockserver to your UI5 controller using *sap.ui.define* or *sap.ui.require*:
 
 ```javascript
 sap.ui.define([
