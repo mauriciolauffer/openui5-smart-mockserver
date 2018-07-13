@@ -26,13 +26,14 @@
     ], function (Component, ComponentContainer, mockserver) {
       mockserver.init();
 
-      sap.ui.component({
+      Component.create({
         id: "mlauffer_smartmockserver",
         name: "mlauffer.demo.openui5.smartmockserver",
         manifest: true,
         async: true
       }).then(function(oComponent) {
         new ComponentContainer({
+          async: true,
           component: oComponent
         }).placeAt("content");
       });

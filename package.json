@@ -19,22 +19,22 @@
     "smarter"
   ],
   "main": "dist/openui5/smartmockserver/library-preload.js",
+  "dependencies": {
+    "@openui5/sap.ui.core": "^1.56.3",
+    "faker": "^4.1.0"
+  },
   "devDependencies": {
-    "eslint": "^5.0.1",
+    "eslint": "^5.1.0",
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^1.1.0",
     "grunt-openui5": "^0.14.0",
     "karma": "^2.0.4",
     "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.2",
-    "karma-coveralls": "^1.2.1",
+    "karma-coveralls": "^2.0.0",
     "karma-openui5": "^0.2.3",
     "karma-qunit": "^2.1.0",
     "qunit": "^2.6.1"
-  },
-  "dependencies": {
-    "@openui5/sap.ui.core": "^1.56.2",
-    "faker": "^4.1.0"
   },
   "scripts": {
     "start": "ui5 serve",
