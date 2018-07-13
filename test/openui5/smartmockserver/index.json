@@ -1,6 +1,6 @@
 {
   "openui5.smartmockserver": {
-    "icon": "sap-icon://enter-more",
+    "icon": "sap-icon://study-leave",
     "name": "OpenUI5 Smart MockServer",
     "description": "An extended version of UI5 MockServer which generates meaningful mock data.",
     "source": "https://github.com/mauriciolauffer/openui5-smart-mockserver.git",
