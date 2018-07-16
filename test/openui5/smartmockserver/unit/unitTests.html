@@ -24,7 +24,7 @@
   if (window.blanket) {
     window.blanket.options('sap-ui-cover-only', 'openui5/smartmockserver');
   }
-  sap.ui.getCore().attachInitEvent(function() {
+  sap.ui.getCore().attachInit(function() {
     sap.ui.require([
         'sap/ui/thirdparty/qunit-2',
         'sap/ui/qunit/qunit-coverage'
