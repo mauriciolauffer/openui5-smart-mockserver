@@ -151,6 +151,32 @@
                         </ColumnListItem>
                     </items>
                 </Table>
+                <Table id="tableSmartMockServerAnnotations" headerText="{i18n>TitleSmartMockServerAnnotations}" items="{/SmartMockServerAnnotationsEntitySet}">
+                    <columns>
+                        <Column hAlign="Center">
+                            <Text text="{i18n>ID}" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="{i18n>CompanyName}" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="{i18n>Address01}" />
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="{i18n>Country}" />
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <Text text="{CustomerID}" />
+                                <Text text="{CompanyName}" />
+                                <Text text="{Address}" />
+                                <Text text="{Country}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
                 <Table id="table" headerText="{i18n>TitleManual}" items="{/Employees}">
                     <columns>
                         <Column hAlign="Center" width="3rem">

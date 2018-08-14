@@ -4,7 +4,7 @@ module.exports = function(config) {
   config.set({
     frameworks: ['openui5', 'qunit'],
     openui5: {
-      path: 'https://openui5.hana.ondemand.com/1.56.1/resources/sap-ui-core.js',
+      path: 'http://localhost:8080/resources/sap-ui-core.js',
       useMockServer: false
     },
     client: {
@@ -15,6 +15,7 @@ module.exports = function(config) {
           bindingSyntax: 'complex',
           compatVersion: 'edge',
           preload: 'async',
+          waitForTheme: 'true',
           libs: 'openui5.smartmockserver',
           resourceroots: {
             'openui5.smartmockserver': 'base/src/openui5/smartmockserver',
@@ -72,8 +73,8 @@ module.exports = function(config) {
     autoWatch: true,
     useIframe: false,
     browsers: ['ChromeHeadless'],
-    reporters: ['progress', 'coverage', 'coveralls'],
+    reporters: ['progress', 'coverage'],
     reportSlowerThan: 200,
-    singleRun: true
+    singleRun: false
   });
 };

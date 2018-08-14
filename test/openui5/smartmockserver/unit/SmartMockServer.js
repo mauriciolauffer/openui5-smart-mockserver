@@ -1,4 +1,4 @@
-sap.ui.require([
+sap.ui.define([
   'jquery.sap.global',
   'sap/ui/core/util/MockServer',
   'openui5/smartmockserver/SmartMockServer'
@@ -8,6 +8,7 @@ sap.ui.require([
   const entityNameWithoutSmartRules = 'Customer';
   const entityNameWithSmartRules = 'Employee';
   const entityNameWithSapSemantics = 'SAPSemanticEntity';
+  const entityNameWithSmartMockServerAnnotations = 'SmartMockServerAnnotationsEntity';
   const mockServer = buildMockServer(true);
 
   function buildMockServer(withSmartRules) {
@@ -278,25 +279,89 @@ sap.ui.require([
         });
       });
 
+      QUnit.module('_getEntityPropertiesWithSapSemanticsAnnotations', () => {
+        test('Should return Entity Properties with a SAP Semantics Annotations assigned to', (assert) => {
+          const entityType = getEntityType(entityNameWithSapSemantics);
+          const propertiesWithSemantics = mockServer._getEntityPropertiesWithSapSemanticsAnnotations(entityType.name);
+          assert.notEqual(propertiesWithSemantics.length, 0);
+        });
+
+        test('Should return none Entity Properties with a SAP Semantics Annotations assigned to', (assert) => {
+          const entityType = getEntityType(entityNameWithoutSmartRules);
+          const propertiesWithSemantics = mockServer._getEntityPropertiesWithSapSemanticsAnnotations(entityType.name);
+          assert.deepEqual(propertiesWithSemantics.length, 0);
+        });
+      });
+
       QUnit.module('_generateDataFromEntityWithSapSemanticsAnnotations', () => {
         test('Should generate smart mock data only for properties with a SAP Semantics Annotations assigned to', (assert) => {
           const entityType = getEntityType(entityNameWithSapSemantics);
           const mockEntity = mockServer._generateDataFromEntityOriginal(entityType, 1);
           const smartMockEntity = mockServer._generateDataFromEntityWithSapSemanticsAnnotations(entityType.name, mockEntity);
-          assert.ok(smartMockEntity.street);
-          assert.ok(smartMockEntity.givenname);
-          assert.ok(mockEntity.RegularField);
-          assert.notEqual(smartMockEntity.street, 'Address 1');
-          assert.notEqual(smartMockEntity.givenname, 'FirstName 1');
+          assert.deepEqual(mockEntity.street, 'street 1');
+          assert.deepEqual(mockEntity.givenname, 'givenname 1');
           assert.deepEqual(mockEntity.RegularField, 'RegularField 1');
+          assert.deepEqual(smartMockEntity.RegularField, mockEntity.RegularField);
+          assert.notEqual(smartMockEntity.street, mockEntity.street);
+          assert.notEqual(smartMockEntity.givenname, mockEntity.givenname);
         });
 
         test('Should return the same received mock data, no changes', (assert) => {
           const entityType = getEntityType(entityNameWithoutSmartRules);
           const mockEntity = mockServer._generateDataFromEntityOriginal(entityType, 1);
           const smartMockEntity = mockServer._generateDataFromEntityWithSapSemanticsAnnotations(entityType.name, mockEntity);
-          assert.deepEqual(smartMockEntity.Address, 'Address 1');
+          assert.deepEqual(mockEntity.Address, 'Address 1');
           assert.deepEqual(mockEntity.CompanyName, 'CompanyName 1');
+          assert.deepEqual(smartMockEntity.Address, mockEntity.Address);
+          assert.deepEqual(smartMockEntity.CompanyName, mockEntity.CompanyName);
+        });
+      });
+
+      QUnit.module('_getEntityPropertiesWithSmartMockServerAnnotations', () => {
+        test('Should return Entity Properties with a Smart MockServer Annotations assigned to', (assert) => {
+          const entityType = getEntityType(entityNameWithSmartMockServerAnnotations);
+          const propertiesWithAnnotations = mockServer._getEntityPropertiesWithSmartMockServerAnnotations(entityType.name);
+          assert.notEqual(propertiesWithAnnotations.length, 0);
+        });
+
+        test('Should return none Entity Properties with a Smart MockServer Annotations assigned to', (assert) => {
+          const entityType = getEntityType(entityNameWithoutSmartRules);
+          const propertiesWithAnnotations = mockServer._getEntityPropertiesWithSmartMockServerAnnotations(entityType.name);
+          assert.deepEqual(propertiesWithAnnotations.length, 0);
+        });
+      });
+
+      QUnit.module('_generateDataFromEntityWithSmartMockServerAnnotations', () => {
+        test('Should generate smart mock data only for properties with a Smart MockServer Annotations assigned to', (assert) => {
+          const entityType = getEntityType(entityNameWithSmartMockServerAnnotations);
+          const mockEntity = mockServer._generateDataFromEntityOriginal(entityType, 1);
+          const smartMockEntity = mockServer._generateDataFromEntityWithSmartMockServerAnnotations(entityType.name, mockEntity);
+          assert.deepEqual(mockEntity.CustomerID, 'CustomerID 1');
+          assert.deepEqual(mockEntity.CompanyName, 'CompanyName 1');
+          assert.deepEqual(mockEntity.Address, 'Address 1');
+          assert.deepEqual(mockEntity.Country, 'Country 1');
+          assert.deepEqual(mockEntity.Phone, 'Phone 1');
+          assert.deepEqual(smartMockEntity.Phone, mockEntity.Phone);
+          assert.notEqual(smartMockEntity.CustomerID, mockEntity.CustomerID);
+          assert.notEqual(smartMockEntity.CompanyName, mockEntity.CompanyName);
+          assert.notEqual(smartMockEntity.Address, mockEntity.Address);
+          assert.notEqual(smartMockEntity.Country, mockEntity.Country);
+        });
+
+        test('Should return the same received mock data, no changes', (assert) => {
+          const entityType = getEntityType(entityNameWithoutSmartRules);
+          const mockEntity = mockServer._generateDataFromEntityOriginal(entityType, 1);
+          const smartMockEntity = mockServer._generateDataFromEntityWithSmartMockServerAnnotations(entityType.name, mockEntity);
+          assert.deepEqual(mockEntity.CustomerID, 'CustomerID 1');
+          assert.deepEqual(mockEntity.CompanyName, 'CompanyName 1');
+          assert.deepEqual(mockEntity.Address, 'Address 1');
+          assert.deepEqual(mockEntity.Country, 'Country 1');
+          assert.deepEqual(mockEntity.Phone, 'Phone 1');
+          assert.deepEqual(smartMockEntity.CustomerID, mockEntity.CustomerID);
+          assert.deepEqual(smartMockEntity.CompanyName, mockEntity.CompanyName);
+          assert.deepEqual(smartMockEntity.Address, mockEntity.Address);
+          assert.deepEqual(smartMockEntity.Country, mockEntity.Country);
+          assert.deepEqual(smartMockEntity.Phone, mockEntity.Phone);
         });
       });
 

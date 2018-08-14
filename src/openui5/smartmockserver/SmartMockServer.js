@@ -156,6 +156,7 @@ sap.ui.define([
       }
       let entityWithSmartData = $.extend(true, {}, entity);
       entityWithSmartData = this._generateDataFromEntityWithSapSemanticsAnnotations(entityName, entityWithSmartData);
+      entityWithSmartData = this._generateDataFromEntityWithSmartMockServerAnnotations(entityName, entityWithSmartData);
       entityWithSmartData = this._generateDataFromEntityWithSmartRules(entityName, entityWithSmartData);
       return entityWithSmartData;
 
@@ -188,6 +189,19 @@ sap.ui.define([
   };
 
   /**
+   * Get Entity Properties which contain SAP Semantics Annotations.
+   *
+   * @param {string} entityName the Entity name used to generate the data
+   * @return {array} Entity Properties which contain SAP Semantics Annotations
+   * @private
+   */
+  SmartMockServer.prototype._getEntityPropertiesWithSapSemanticsAnnotations = function(entityName) {
+    const entityQuery = 'EntityType[Name="' + entityName + '"]';
+    const propertyQuery = 'Property[sap\\:semantics]';
+    return $(this._oMetadata).find(entityQuery).find(propertyQuery);
+  };
+
+  /**
    * Generate smart mock data for an Entity based on the SAP semantics set for the properties.
    *
    * @param {string} entityName the Entity name used to generate the data
@@ -196,9 +210,7 @@ sap.ui.define([
    * @private
    */
   SmartMockServer.prototype._generateDataFromEntityWithSapSemanticsAnnotations = function(entityName, entity) {
-    const entityQuery = 'EntityType[Name="' + entityName + '"]';
-    const propertyQuery = 'Property[sap\\:semantics]';
-    const propertiesWithSemantics = $(this._oMetadata).find(entityQuery).find(propertyQuery);
+    const propertiesWithSemantics = this._getEntityPropertiesWithSapSemanticsAnnotations(entityName);
     if (propertiesWithSemantics && propertiesWithSemantics.length && propertiesWithSemantics.length > 0) {
       const entityWithSmartData = $.extend(true, {}, entity);
       propertiesWithSemantics.each(function(index, propertyXml) {
@@ -229,6 +241,44 @@ sap.ui.define([
       return mapping.fakerMethod;
     } else {
       return mapping;
+    }
+  };
+
+  /**
+   * Get Entity Properties which contain Smart MockServer Annotations.
+   *
+   * @param {string} entityName the Entity name used to generate the data
+   * @return {array} Entity Properties which contain Smart MockServer Annotations
+   * @private
+   */
+  SmartMockServer.prototype._getEntityPropertiesWithSmartMockServerAnnotations = function(entityName) {
+    const entityQuery = 'EntityType[Name="' + entityName + '"]';
+    const propertyQuery = 'Property[smartmockserver\\:rule]';
+    return $(this._oMetadata).find(entityQuery).find(propertyQuery);
+  };
+
+  /**
+   * Generate smart mock data for an Entity based on the Smart MockServer Annotations set for the properties.
+   *
+   * @param {string} entityName the Entity name used to generate the data
+   * @param {object} entity the Entity object containing its properties and values
+   * @return {object} the mocked Entity with smart content
+   * @private
+   */
+  SmartMockServer.prototype._generateDataFromEntityWithSmartMockServerAnnotations = function(entityName, entity) {
+    const propertiesWithSemantics = this._getEntityPropertiesWithSmartMockServerAnnotations(entityName);
+    if (propertiesWithSemantics && propertiesWithSemantics.length && propertiesWithSemantics.length > 0) {
+      const entityWithSmartData = $.extend(true, {}, entity);
+      propertiesWithSemantics.each(function(index, propertyXml) {
+        const property = $(propertyXml);
+        const fakerMethod = property.attr('smartmockserver:rule');
+        if (fakerMethod) {
+          entityWithSmartData[property.attr('Name')] = this._callFakerMethod(fakerMethod);
+        }
+      }.bind(this));
+      return entityWithSmartData;
+    } else {
+      return entity;
     }
   };
 

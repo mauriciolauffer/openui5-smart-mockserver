@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+           xmlns:smartmockserver="https://www.npmjs.com/package/openui5-smart-mockserver"
            xmlns:sap="http://www.sap.com/Protocols/SAPData">
   <edmx:DataServices xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="1.0">
     <Schema Namespace="NorthwindModel" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
@@ -43,7 +44,16 @@
         <Property Name="PhotoPath" Type="Edm.String" Nullable="true" MaxLength="255" Unicode="true" FixedLength="false" />
       </EntityType>
 
-
+      <EntityType Name="SmartMockServerAnnotationsEntity">
+        <Key>
+          <PropertyRef Name="CustomerID" />
+        </Key>
+        <Property Name="CustomerID" Type="Edm.String" Nullable="false" MaxLength="5" Unicode="true" smartmockserver:rule="random.number" />
+        <Property Name="CompanyName" Type="Edm.String" Nullable="false" MaxLength="40" Unicode="true" smartmockserver:rule="company.companyName"/>
+        <Property Name="Address" Type="Edm.String" Nullable="true" MaxLength="60" Unicode="true" smartmockserver:rule="address.streetAddress" />
+        <Property Name="Country" Type="Edm.String" Nullable="true" MaxLength="15" Unicode="true" smartmockserver:rule="address.country" />
+        <Property Name="Phone" Type="Edm.String" Nullable="true" MaxLength="24" Unicode="true" />
+      </EntityType>
 
       <EntityType Name="SAPSemanticEntity" sap:content-version="1">
         <Key>
@@ -182,6 +192,7 @@
       <EntityContainer Name="NorthwindEntities" p7:LazyLoadingEnabled="true" m:IsDefaultEntityContainer="true" xmlns:p7="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
         <EntitySet Name="Customers" EntityType="NorthwindModel.Customer" />
         <EntitySet Name="Employees" EntityType="NorthwindModel.Employee" />
+        <EntitySet Name="SmartMockServerAnnotationsEntitySet" EntityType="NorthwindModel.SmartMockServerAnnotationsEntity" />
         <EntitySet Name="SAPSemanticEntitySet" EntityType="NorthwindModel.SAPSemanticEntity"
                    sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false"
                    sap:addressable="false" sap:content-version="1"/>

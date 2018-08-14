@@ -20,12 +20,13 @@
   ],
   "main": "dist/openui5/smartmockserver/library-preload.js",
   "dependencies": {
-    "@openui5/sap.ui.core": "^1.56.3",
+    "@openui5/sap.ui.core": "^1.56.4",
+    "@openui5/themelib_sap_belize": "^1.56.4",
     "faker": "^4.1.0"
   },
   "devDependencies": {
-    "eslint": "^5.1.0",
-    "karma": "^2.0.4",
+    "eslint": "^5.3.0",
+    "karma": "^3.0.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.2",
     "karma-coveralls": "^2.0.0",
@@ -37,8 +38,7 @@
     "start": "ui5 serve",
     "test": "karma start",
     "build": "ui5 build",
-    "preversion": "npm test",
-    "postversion": "git push && git push --tags"
+    "preversion": "npm test"
   },
   "repository": {
     "type": "git",
