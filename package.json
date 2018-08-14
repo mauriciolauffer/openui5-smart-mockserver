@@ -37,6 +37,7 @@
   "scripts": {
     "start": "ui5 serve",
     "test": "karma start",
+    "test-ci": "karma start karma.ci.conf",
     "build": "ui5 build",
     "preversion": "npm test"
   },
