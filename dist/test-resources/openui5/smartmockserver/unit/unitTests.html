@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Mauricio Lauffer">
+  <title>Unit Test for openui5-smart-mockserver</title>
+  <link rel="stylesheet" href="/resources/sap/ui/thirdparty/qunit-2.css" type="text/css" media="screen">
+  <script id="sap-ui-bootstrap"
+          src="/resources/sap-ui-core.js"
+          data-sap-ui-preload="async"
+          data-sap-ui-compatVersion="edge"
+          data-sap-ui-resourceroots='{
+          "openui5.smartmockserver": "/resources/openui5/smartmockserver",
+          "test.unit": "./"}'>
+  </script>
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+<script>
+  'use strict';
+  if (window.blanket) {
+    window.blanket.options('sap-ui-cover-only', 'openui5/smartmockserver');
+  }
+  sap.ui.getCore().attachInit(function() {
+    sap.ui.require([
+        'sap/ui/thirdparty/qunit-2',
+        'sap/ui/qunit/qunit-coverage'
+      ], function() {
+        QUnit.config.autostart = false;
+        sap.ui.require([
+            'test/unit/allTests'
+          ], function() {
+            //Starting QUnit tests
+          }
+        );
+      }
+    );
+  });
+</script>
+</body>
+</html>
