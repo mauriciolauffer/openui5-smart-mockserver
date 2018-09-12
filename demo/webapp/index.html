@@ -12,7 +12,7 @@
           data-sap-ui-compatVersion="edge" data-sap-ui-preload="async"
           data-sap-ui-resourceroots='{
           "mlauffer.demo.openui5.smartmockserver": "./",
-          "openui5.smartmockserver": "../../dist/openui5/smartmockserver"}'></script>
+          "openui5.smartmockserver": "../../dist/resources/openui5/smartmockserver"}'></script>
 </head>
 <body class="sapUiBody" role="application">
 <div id="content"></div>
@@ -20,23 +20,20 @@
   sap.ui.getCore().attachInit(function() {
     "use strict";
     sap.ui.require([
-      "sap/ui/core/Component",
       "sap/ui/core/ComponentContainer",
       "mlauffer/demo/openui5/smartmockserver/localService/mockserver"
-    ], function (Component, ComponentContainer, mockserver) {
+    ], function (ComponentContainer, mockserver) {
       mockserver.init();
-
-      Component.create({
+      let comp = new ComponentContainer({
         id: "mlauffer_smartmockserver",
         name: "mlauffer.demo.openui5.smartmockserver",
         manifest: true,
-        async: true
-      }).then(function(oComponent) {
-        new ComponentContainer({
-          async: true,
-          component: oComponent
-        }).placeAt("content");
+        async: true,
+        componentCreated: function(evt) {
+          comp = evt.getParameter('component');
+        }
       });
+      comp.placeAt('content');
     });
   });
 </script>
