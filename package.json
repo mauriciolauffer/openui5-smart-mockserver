@@ -1,6 +1,6 @@
 {
   "name": "openui5-smart-mockserver",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "An extended version of UI5 MockServer which generates meaningful mock data.",
   "homepage": "https://github.com/mauriciolauffer/openui5-smart-mockserver#readme",
   "author": "Mauricio Lauffer",
