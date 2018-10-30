@@ -5,7 +5,7 @@
     "description": "An extended version of UI5 MockServer which generates meaningful mock data.",
     "source": "https://github.com/mauriciolauffer/openui5-smart-mockserver.git",
     "documentation": "https://github.com/mauriciolauffer/openui5-smart-mockserver#readme",
-    "demo": "https://cdn.rawgit.com/mauriciolauffer/openui5-smart-mockserver/master/demo/webapp/index.html",
+    "demo": "https://htmlpreview.github.io/?https://github.com/mauriciolauffer/openui5-smart-mockserver/blob/master/demo/webapp/index.html",
     "version": "1.0.0",
     "license": "MIT",
     "content": {
@@ -19,7 +19,7 @@
           "id": "openui5-smart-mockserver-Playground",
           "name": "OpenUI5 Smart MockServer Playground",
           "description": "An interactive playground for openui5-smart-mockserver",
-          "url": "https://cdn.rawgit.com/mauriciolauffer/openui5-smart-mockserver/master/demo/webapp/index.html"
+          "url": "https://htmlpreview.github.io/?https://github.com/mauriciolauffer/openui5-smart-mockserver/blob/master/demo/webapp/index.html"
         }]
       }
     }
