@@ -6,18 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Mauricio Lauffer">
   <title>OpenUI5 Smart MockServer</title>
-  <script id="sap-ui-bootstrap"
-          src="https://openui5.hana.ondemand.com/1.56.1/resources/sap-ui-core.js"
-          data-sap-ui-libs="sap.m, openui5.smartmockserver" data-sap-ui-theme="sap_belize"
-          data-sap-ui-compatVersion="edge" data-sap-ui-preload="async"
-          data-sap-ui-resourceroots='{
-          "mlauffer.demo.openui5.smartmockserver": "./",
-          "openui5.smartmockserver": "../../dist/resources/openui5/smartmockserver"}'></script>
 </head>
 <body class="sapUiBody" role="application">
 <div id="content"></div>
+<script id="sap-ui-bootstrap" async defer
+        src="https://openui5.hana.ondemand.com/1.58.4/resources/sap-ui-core.js"
+        data-sap-ui-libs="sap.m, openui5.smartmockserver" data-sap-ui-theme="sap_belize"
+        data-sap-ui-compatVersion="edge" data-sap-ui-preload="async"
+        data-sap-ui-oninit="boot"
+        data-sap-ui-language="en"
+        data-sap-ui-xx-waitForTheme="true"
+        data-sap-ui-resourceroots='{
+          "mlauffer.demo.openui5.smartmockserver": "./",
+          "openui5.smartmockserver": "../../dist/resources/openui5/smartmockserver"}'></script>
 <script>
-  sap.ui.getCore().attachInit(function() {
+  function boot() {
     "use strict";
     sap.ui.require([
       "sap/ui/core/ComponentContainer",
@@ -35,7 +38,7 @@
       });
       comp.placeAt('content');
     });
-  });
+  }
 </script>
 </body>
 </html>

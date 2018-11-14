@@ -33,7 +33,7 @@ Faker.js methods: https://github.com/marak/Faker.js/#api-methods
 ## Demo
 You can check out a live demo here:
 
-https://htmlpreview.github.io/?https://github.com/mauriciolauffer/openui5-smart-mockserver/blob/master/demo/webapp/index.html
+https://mauriciolauffer.github.io/openui5-smart-mockserver/demo/webapp/index.html
 
 
 ## Project Structure
