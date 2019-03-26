@@ -1,8 +1,7 @@
 sap.ui.define([
-    'jquery.sap.global',
     'openui5/smartmockserver/SmartMockServer',
     'mlauffer/demo/openui5/smartmockserver/Component'
-  ], function ($, SmartMockServer, Component) {
+  ], function (SmartMockServer, Component) {
     'use strict';
 
     /*
@@ -67,7 +66,7 @@ sap.ui.define([
       init: function() {
         const manifestApp = Component.getMetadata().getManifestEntry('sap.app');
         const mainDataSource = manifestApp.dataSources['NORTHWIND'];
-        const metadataUrl = $.sap.getModulePath(manifestApp.id) + '/' + mainDataSource.settings.localUri;
+        const metadataUrl = sap.ui.require.toUrl('mlauffer/demo/openui5/smartmockserver/') + mainDataSource.settings.localUri;
         const mockServerUrl = /.*\/$/.test(mainDataSource.uri) ? mainDataSource.uri : mainDataSource.uri + '/';
         const mockServer = new SmartMockServer({ rootUri: mockServerUrl });
 
