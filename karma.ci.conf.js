@@ -3,9 +3,8 @@ module.exports = function(config) {
 
   require('./karma.conf')(config);
   config.set({
-    openui5: {
-      path: 'https://openui5.hana.ondemand.com/1.56.4/resources/sap-ui-core.js',
-      useMockServer: false
+    ui5: {
+      url: 'https://openui5.hana.ondemand.com/1.61.2'
     },
     browsers: ['ChromeHeadless'],
     reporters: ['progress', 'coverage', 'coveralls'],

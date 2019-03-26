@@ -2,29 +2,26 @@ module.exports = function(config) {
   'use strict';
 
   config.set({
-    frameworks: ['openui5', 'qunit'],
-    openui5: {
-      path: 'http://localhost:8080/resources/sap-ui-core.js',
-      useMockServer: false
+    frameworks: ['qunit', 'sinon', 'ui5'],
+    ui5: {
+      type: 'library',
+      url: 'http://localhost:8080',
+      htmlrunner: false,
+      config: {
+        theme: 'sap_belize',
+        language: 'en',
+        logLevel: 'WARNING',
+        compatVersion: 'edge',
+        preload: 'async',
+        resourceroots: {
+          'openui5.smartmockserver': 'base/src/openui5/smartmockserver',
+          'test.unit': 'base/test/openui5/smartmockserver/unit'
+        }
+      },
+      tests: ['test/unit/allTests']
     },
     client: {
-      openui5: {
-        config: {
-          theme: 'sap_belize',
-          language: 'EN',
-          bindingSyntax: 'complex',
-          compatVersion: 'edge',
-          preload: 'async',
-          waitForTheme: 'true',
-          libs: 'openui5.smartmockserver',
-          resourceroots: {
-            'openui5.smartmockserver': 'base/src/openui5/smartmockserver',
-            'test.unit': 'base/test/openui5/smartmockserver/unit'
-          }
-        },
-        tests: ['test/unit/allTests']
-      },
-      clearContext: false,
+      useIframe: false,
       qunit: {
         showUI: true,
         testTimeout: 20000, //20 secs
@@ -40,13 +37,7 @@ module.exports = function(config) {
         watched: true
       },
       {
-        pattern: 'test/openui5/smartmockserver/unit/**',
-        included: false,
-        served: true,
-        watched: true
-      },
-      {
-        pattern: 'test/openui5/smartmockserver/testdata/**',
+        pattern: 'test/**',
         included: false,
         served: true,
         watched: true
@@ -71,8 +62,7 @@ module.exports = function(config) {
       }
     },
     autoWatch: true,
-    useIframe: false,
-    browsers: ['ChromeHeadless'],
+    browsers: ['Chrome'],
     reporters: ['progress', 'coverage'],
     reportSlowerThan: 200,
     singleRun: false

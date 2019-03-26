@@ -1,8 +1,7 @@
 sap.ui.define([
-  'jquery.sap.global',
   'sap/ui/core/util/MockServer',
   'openui5/smartmockserver/SmartMockServer'
-], function($, MockServer, SmartMockServer) {
+], function(MockServer, SmartMockServer) {
   'use strict';
 
   const entityNameWithoutSmartRules = 'Customer';
