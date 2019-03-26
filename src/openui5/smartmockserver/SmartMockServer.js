@@ -1,8 +1,9 @@
 sap.ui.define([
-  'jquery.sap.global',
+  'sap/base/Log',
+  'sap/ui/thirdparty/jquery',
   'sap/ui/core/util/MockServer',
-  './thirdparty/faker.min'
-], function($, MockServer) {
+  'openui5/smartmockserver/thirdparty/faker.min'
+], function(Log, $, MockServer) {
   'use strict';
 
   const SmartMockServer = MockServer;
@@ -161,7 +162,7 @@ sap.ui.define([
       return entityWithSmartData;
 
     } catch (err) {
-      $.sap.log.error(err);
+      Log.error(err);
       return entity;
     }
   };
