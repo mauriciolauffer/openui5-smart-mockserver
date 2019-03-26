@@ -7,7 +7,7 @@ sap.ui.define([], function() {
    * @namespace
    * @name openui5.smartmockserver
    * @author Mauricio Lauffer
-   * @version 0.2.5
+   * @version 0.2.6
    * @public
    */
   return sap.ui.getCore().initLibrary({
@@ -19,6 +19,6 @@ sap.ui.define([], function() {
       'openui5.smartmockserver.SmartMockServer'
     ],
     noLibraryCSS: true,
-    version: '0.2.5'
+    version: '0.2.6'
   });
 });
