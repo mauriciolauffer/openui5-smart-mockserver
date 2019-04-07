@@ -25,7 +25,6 @@
   ],
   "dependencies": {
     "@openui5/sap.ui.core": "^1.62.1",
-    "@openui5/themelib_sap_fiori_3": "^1.62.1",
     "faker": "^4.1.0"
   },
   "devDependencies": {
@@ -36,7 +35,7 @@
     "karma-coveralls": "^2.1.0",
     "karma-qunit": "^3.0.0",
     "karma-sinon": "^1.0.5",
-    "karma-ui5": "^1.0.0-beta.2",
+    "karma-ui5": "^1.0.0",
     "qunit": "^2.9.2",
     "sinon": "^7.3.0"
   },
