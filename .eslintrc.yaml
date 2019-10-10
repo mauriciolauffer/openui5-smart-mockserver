@@ -1,0 +1,15 @@
+env:
+  node: true
+  es6: true
+  browser: true
+  qunit: true
+  jquery: true
+globals:
+  sap: true
+  faker: true
+parserOptions:
+  ecmaVersion: 2018
+extends:
+  - eslint:recommended
+rules:
+  max-len: 0

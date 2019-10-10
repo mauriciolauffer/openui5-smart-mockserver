@@ -3,9 +3,31 @@ sap.ui.define([
   'sap/ui/thirdparty/jquery',
   'sap/ui/core/util/MockServer',
   'openui5/smartmockserver/thirdparty/faker.min'
-], function(Log, $, MockServer) {
+],
+/**
+ * Module Dependencies
+ *
+ * @param {typeof sap.base.Log} Log UI5 logger
+ * @param {typeof sap.ui.thirdparty.jquery} $ jQuery
+ * @param {typeof sap.ui.core.util.MockServer} MockServer UI5 MockServer
+ * @returns {object} SmartMockServer object, an extended UI5 MockServer control
+ */
+function(Log, $, MockServer) {
   'use strict';
 
+  /**
+   * OpenUI5 SmartMockServer.
+   * SmartMockServer generates meaningful mock data
+   *
+   * @author Mauricio Lauffer
+   * @version ${version}
+   *
+   * @class
+   * @namespace
+   * @name openui5.smartmockserver
+   * @public
+   * @alias openui5.smartmockserver.SmartMockServer
+   */
   const SmartMockServer = MockServer;
 
   SmartMockServer.prototype._generateDataFromEntityOriginal = SmartMockServer.prototype._generateDataFromEntity;
@@ -132,8 +154,8 @@ sap.ui.define([
    * randomly
    *
    * @param {object} oEntityType the Entity type used to generate the data
-   * @param {int} iIndex index of this particular object in the parent collection
-   * @param {map} mComplexTypes map of the complex types
+   * @param {number} iIndex index of this particular object in the parent collection
+   * @param {object} mComplexTypes map of the complex types
    * @return {object} the mocked Entity
    * @private
    */
