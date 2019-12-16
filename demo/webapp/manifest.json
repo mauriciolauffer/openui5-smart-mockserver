@@ -1,6 +1,6 @@
 {
 	"sap.app": {
-		"id": "mlauffer.demo.openui5.smartmockserver",
+		"id": "linkup.dialogo.seguranca",
 		"type": "application",
     "i18n": "i18n/i18n.properties",
     "dataSources": {
@@ -28,12 +28,12 @@
 			"i18n": {
 				"type": "sap.ui.model.resource.ResourceModel",
 				"settings": {
-					"bundleName": "mlauffer.demo.openui5.smartmockserver.i18n.i18n"
+					"bundleName": "linkup.dialogo.seguranca.i18n.i18n"
 				}
 			}
 		},
 		"rootView": {
-			"viewName": "mlauffer.demo.openui5.smartmockserver.view.App",
+			"viewName": "linkup.dialogo.seguranca.view.App",
 			"id": "rootApp",
 			"type": "XML",
       "async": true

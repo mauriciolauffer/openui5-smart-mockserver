@@ -1,7 +1,9 @@
+extends:
+  - eslint:recommended
+  - google
 env:
-  node: true
-  es6: true
   browser: true
+  es6: true
   qunit: true
   jquery: true
 globals:
@@ -9,7 +11,9 @@ globals:
   faker: true
 parserOptions:
   ecmaVersion: 2018
-extends:
-  - eslint:recommended
 rules:
   max-len: 0
+  strict: error
+  func-names: 0
+  valid-jsdoc: 0
+  prefer-rest-params: 0

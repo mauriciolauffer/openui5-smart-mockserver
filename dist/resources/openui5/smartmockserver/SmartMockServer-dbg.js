@@ -1,11 +1,39 @@
+/*
+ * openui5-smart-mockserver
+ * (c) Copyright 2018-2019 Mauricio Lauffer
+ * Licensed under the MIT license. See LICENSE file in the project root for full license information.
+ */
+
 sap.ui.define([
   'sap/base/Log',
   'sap/ui/thirdparty/jquery',
   'sap/ui/core/util/MockServer',
-  'openui5/smartmockserver/thirdparty/faker.min'
-], function(Log, $, MockServer) {
+  'openui5/smartmockserver/thirdparty/faker.min',
+],
+/**
+ * Module Dependencies
+ *
+ * @param {typeof sap.base.Log} Log UI5 logger
+ * @param {typeof sap.ui.thirdparty.jquery} $ jQuery
+ * @param {typeof sap.ui.core.util.MockServer} MockServer UI5 MockServer
+ * @returns {object} SmartMockServer object, an extended UI5 MockServer control
+ */
+function(Log, $, MockServer) {
   'use strict';
 
+  /**
+   * OpenUI5 SmartMockServer.
+   * SmartMockServer generates meaningful mock data
+   *
+   * @author Mauricio Lauffer
+   * @version 0.2.7
+   *
+   * @class
+   * @namespace
+   * @name openui5.smartmockserver
+   * @public
+   * @alias openui5.smartmockserver.SmartMockServer
+   */
   const SmartMockServer = MockServer;
 
   SmartMockServer.prototype._generateDataFromEntityOriginal = SmartMockServer.prototype._generateDataFromEntity;
@@ -17,112 +45,112 @@ sap.ui.define([
   SmartMockServer.prototype.SAP_SEMANTICS_TO_FAKER_METHOD_MAPPING = [
     {
       sapSemantics: 'city',
-      fakerMethod: 'address.city'
+      fakerMethod: 'address.city',
     },
     {
       sapSemantics: 'country',
-      fakerMethod: 'address.country'
+      fakerMethod: 'address.country',
     },
     {
       sapSemantics: 'geo-lat',
-      fakerMethod: 'address.latitude'
+      fakerMethod: 'address.latitude',
     },
     {
       sapSemantics: 'geo-lon',
-      fakerMethod: 'address.longitude'
+      fakerMethod: 'address.longitude',
     },
     {
       sapSemantics: 'region',
-      fakerMethod: 'address.state'
+      fakerMethod: 'address.state',
     },
     {
       sapSemantics: 'street',
-      fakerMethod: 'address.streetAddress'
+      fakerMethod: 'address.streetAddress',
     },
     {
       sapSemantics: 'zip',
-      fakerMethod: 'address.zipCode'
+      fakerMethod: 'address.zipCode',
     },
     {
       sapSemantics: 'org',
-      fakerMethod: 'company.companyName'
+      fakerMethod: 'company.companyName',
     },
     {
       sapSemantics: 'currency-code',
-      fakerMethod: 'finance.currencyCode'
+      fakerMethod: 'finance.currencyCode',
     },
     {
       sapSemantics: 'photo',
-      fakerMethod: 'image.avatar'
+      fakerMethod: 'image.avatar',
     },
     {
       sapSemantics: 'bcc',
-      fakerMethod: 'internet.email'
+      fakerMethod: 'internet.email',
     },
     {
       sapSemantics: 'cc',
-      fakerMethod: 'internet.email'
+      fakerMethod: 'internet.email',
     },
     {
       sapSemantics: 'email',
-      fakerMethod: 'internet.email'
+      fakerMethod: 'internet.email',
     },
     {
       sapSemantics: 'from',
-      fakerMethod: 'internet.email'
+      fakerMethod: 'internet.email',
     },
     {
       sapSemantics: 'sender',
-      fakerMethod: 'internet.email'
+      fakerMethod: 'internet.email',
     },
     {
       sapSemantics: 'to',
-      fakerMethod: 'internet.email'
+      fakerMethod: 'internet.email',
     },
     {
       sapSemantics: 'url',
-      fakerMethod: 'internet.url'
+      fakerMethod: 'internet.url',
     },
     {
       sapSemantics: 'body',
-      fakerMethod: 'lorem.paragraphs'
+      fakerMethod: 'lorem.paragraphs',
     },
     {
       sapSemantics: 'subject',
-      fakerMethod: 'lorem.sentence'
+      fakerMethod: 'lorem.sentence',
     },
     {
       sapSemantics: 'name',
-      fakerMethod: 'name.findName'
+      fakerMethod: 'name.findName',
     },
     {
       sapSemantics: 'givenname',
-      fakerMethod: 'name.firstName'
+      fakerMethod: 'name.firstName',
     },
     {
       sapSemantics: 'middlename',
-      fakerMethod: 'name.firstName'
+      fakerMethod: 'name.firstName',
     },
     {
       sapSemantics: 'title',
-      fakerMethod: 'name.jobTitle'
+      fakerMethod: 'name.jobTitle',
     },
     {
       sapSemantics: 'familyname',
-      fakerMethod: 'name.lastName'
+      fakerMethod: 'name.lastName',
     },
     {
       sapSemantics: 'honorific',
-      fakerMethod: 'name.prefix'
+      fakerMethod: 'name.prefix',
     },
     {
       sapSemantics: 'suffix',
-      fakerMethod: 'name.suffix'
+      fakerMethod: 'name.suffix',
     },
     {
       sapSemantics: 'tel',
-      fakerMethod: 'phone.phoneNumber'
-    }
+      fakerMethod: 'phone.phoneNumber',
+    },
   ];
 
   /**
@@ -132,13 +160,13 @@ sap.ui.define([
    * randomly
    *
    * @param {object} oEntityType the Entity type used to generate the data
-   * @param {int} iIndex index of this particular object in the parent collection
-   * @param {map} mComplexTypes map of the complex types
+   * @param {number} iIndex index of this particular object in the parent collection
+   * @param {object} mComplexTypes map of the complex types
    * @return {object} the mocked Entity
    * @private
    */
   SmartMockServer.prototype._generateDataFromEntity = function(oEntityType, iIndex, mComplexTypes) {
-    let entity = SmartMockServer.prototype._generateDataFromEntityOriginal.apply(this, arguments);
+    const entity = SmartMockServer.prototype._generateDataFromEntityOriginal.apply(this, arguments);
     return this._generateDataWithSmartRules(oEntityType.name, entity);
   };
 
@@ -160,7 +188,6 @@ sap.ui.define([
       entityWithSmartData = this._generateDataFromEntityWithSmartMockServerAnnotations(entityName, entityWithSmartData);
       entityWithSmartData = this._generateDataFromEntityWithSmartRules(entityName, entityWithSmartData);
       return entityWithSmartData;
-
     } catch (err) {
       Log.error(err);
       return entity;

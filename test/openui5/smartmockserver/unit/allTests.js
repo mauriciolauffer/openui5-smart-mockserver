@@ -1,5 +1,5 @@
 sap.ui.require([
-  'test/unit/SmartMockServer'
+  'test/unit/SmartMockServer',
 ], function() {
   'use strict';
 

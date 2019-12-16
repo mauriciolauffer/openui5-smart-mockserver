@@ -1,6 +1,6 @@
 sap.ui.require([
-  'mlauffer/demo/openui5/smartmockserver/localService/mockserver'
-], function (mockserver) {
+  'mlauffer/demo/openui5/smartmockserver/localService/mockserver',
+], function(mockserver) {
   'use strict';
 
   mockserver.init();

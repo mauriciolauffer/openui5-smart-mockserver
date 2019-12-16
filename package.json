@@ -28,24 +28,25 @@
     "faker": "^4.1.0"
   },
   "devDependencies": {
-    "@openui5/ts-types": "^1.60.3",
-    "eslint": "^6.5.1",
-    "karma": "^4.0.1",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-coverage": "^1.1.2",
+    "@openui5/ts-types": "^1.60.5",
+    "eslint": "^6.7.2",
+    "eslint-config-google": "^0.14.0",
+    "karma": "^4.4.1",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage": "^2.0.1",
     "karma-coveralls": "^2.1.0",
-    "karma-qunit": "^3.0.0",
+    "karma-qunit": "^4.0.0",
     "karma-sinon": "^1.0.5",
-    "karma-ui5": "^1.0.0",
-    "qunit": "^2.9.2",
-    "sinon": "^7.3.0"
+    "karma-ui5": "^1.1.0",
+    "qunit": "^2.9.3",
+    "sinon": "^7.5.0"
   },
   "scripts": {
     "start": "ui5 serve",
     "test": "karma start",
     "test-ci": "karma start karma.ci.conf",
-    "build": "ui5 build",
-    "lint": "eslint ./",
+    "build": "ui5 build --clean-dist",
+    "lint": "eslint src",
     "preversion": "npm run test-ci",
     "version": "npm run build && git add -A dist",
     "postversion": "git push && git push --tags"

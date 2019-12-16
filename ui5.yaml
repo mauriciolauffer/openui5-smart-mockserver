@@ -1,4 +1,8 @@
 specVersion: '1.0'
 metadata:
   name: openui5-smart-mockserver
+  copyright: |-
+    openui5-smart-mockserver
+     * (c) Copyright 2018-${currentYear} Mauricio Lauffer
+     * Licensed under the MIT license. See LICENSE file in the project root for full license information.
 type: library

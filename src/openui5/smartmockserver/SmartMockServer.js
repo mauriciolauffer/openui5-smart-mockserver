@@ -1,8 +1,12 @@
+/*
+ * ${copyright}
+ */
+
 sap.ui.define([
   'sap/base/Log',
   'sap/ui/thirdparty/jquery',
   'sap/ui/core/util/MockServer',
-  'openui5/smartmockserver/thirdparty/faker.min'
+  'openui5/smartmockserver/thirdparty/faker.min',
 ],
 /**
  * Module Dependencies
@@ -39,112 +43,112 @@ function(Log, $, MockServer) {
   SmartMockServer.prototype.SAP_SEMANTICS_TO_FAKER_METHOD_MAPPING = [
     {
       sapSemantics: 'city',
-      fakerMethod: 'address.city'
+      fakerMethod: 'address.city',
     },
     {
       sapSemantics: 'country',
-      fakerMethod: 'address.country'
+      fakerMethod: 'address.country',
     },
     {
       sapSemantics: 'geo-lat',
-      fakerMethod: 'address.latitude'
+      fakerMethod: 'address.latitude',
     },
     {
       sapSemantics: 'geo-lon',
-      fakerMethod: 'address.longitude'
+      fakerMethod: 'address.longitude',
     },
     {
       sapSemantics: 'region',
-      fakerMethod: 'address.state'
+      fakerMethod: 'address.state',
     },
     {
       sapSemantics: 'street',
-      fakerMethod: 'address.streetAddress'
+      fakerMethod: 'address.streetAddress',
     },
     {
       sapSemantics: 'zip',
-      fakerMethod: 'address.zipCode'
+      fakerMethod: 'address.zipCode',
     },
     {
       sapSemantics: 'org',
-      fakerMethod: 'company.companyName'
+      fakerMethod: 'company.companyName',
     },
     {
       sapSemantics: 'currency-code',
-      fakerMethod: 'finance.currencyCode'
+      fakerMethod: 'finance.currencyCode',
     },
     {
       sapSemantics: 'photo',
-      fakerMethod: 'image.avatar'
+      fakerMethod: 'image.avatar',
     },
     {
       sapSemantics: 'bcc',
-      fakerMethod: 'internet.email'
+      fakerMethod: 'internet.email',
     },
     {
       sapSemantics: 'cc',
-      fakerMethod: 'internet.email'
+      fakerMethod: 'internet.email',
     },
     {
       sapSemantics: 'email',
-      fakerMethod: 'internet.email'
+      fakerMethod: 'internet.email',
     },
     {
       sapSemantics: 'from',
-      fakerMethod: 'internet.email'
+      fakerMethod: 'internet.email',
     },
     {
       sapSemantics: 'sender',
-      fakerMethod: 'internet.email'
+      fakerMethod: 'internet.email',
     },
     {
       sapSemantics: 'to',
-      fakerMethod: 'internet.email'
+      fakerMethod: 'internet.email',
     },
     {
       sapSemantics: 'url',
-      fakerMethod: 'internet.url'
+      fakerMethod: 'internet.url',
     },
     {
       sapSemantics: 'body',
-      fakerMethod: 'lorem.paragraphs'
+      fakerMethod: 'lorem.paragraphs',
     },
     {
       sapSemantics: 'subject',
-      fakerMethod: 'lorem.sentence'
+      fakerMethod: 'lorem.sentence',
     },
     {
       sapSemantics: 'name',
-      fakerMethod: 'name.findName'
+      fakerMethod: 'name.findName',
     },
     {
       sapSemantics: 'givenname',
-      fakerMethod: 'name.firstName'
+      fakerMethod: 'name.firstName',
     },
     {
       sapSemantics: 'middlename',
-      fakerMethod: 'name.firstName'
+      fakerMethod: 'name.firstName',
     },
     {
       sapSemantics: 'title',
-      fakerMethod: 'name.jobTitle'
+      fakerMethod: 'name.jobTitle',
     },
     {
       sapSemantics: 'familyname',
-      fakerMethod: 'name.lastName'
+      fakerMethod: 'name.lastName',
     },
     {
       sapSemantics: 'honorific',
-      fakerMethod: 'name.prefix'
+      fakerMethod: 'name.prefix',
     },
     {
       sapSemantics: 'suffix',
-      fakerMethod: 'name.suffix'
+      fakerMethod: 'name.suffix',
     },
     {
       sapSemantics: 'tel',
-      fakerMethod: 'phone.phoneNumber'
-    }
+      fakerMethod: 'phone.phoneNumber',
+    },
   ];
 
   /**
@@ -160,7 +164,7 @@ function(Log, $, MockServer) {
    * @private
    */
   SmartMockServer.prototype._generateDataFromEntity = function(oEntityType, iIndex, mComplexTypes) {
-    let entity = SmartMockServer.prototype._generateDataFromEntityOriginal.apply(this, arguments);
+    const entity = SmartMockServer.prototype._generateDataFromEntityOriginal.apply(this, arguments);
     return this._generateDataWithSmartRules(oEntityType.name, entity);
   };
 
@@ -182,7 +186,6 @@ function(Log, $, MockServer) {
       entityWithSmartData = this._generateDataFromEntityWithSmartMockServerAnnotations(entityName, entityWithSmartData);
       entityWithSmartData = this._generateDataFromEntityWithSmartRules(entityName, entityWithSmartData);
       return entityWithSmartData;
-
     } catch (err) {
       Log.error(err);
       return entity;
