@@ -26,7 +26,7 @@ function(Log, $, MockServer) {
    * SmartMockServer generates meaningful mock data
    *
    * @author Mauricio Lauffer
-   * @version 0.2.7
+   * @version 0.2.8
    *
    * @class
    * @namespace
