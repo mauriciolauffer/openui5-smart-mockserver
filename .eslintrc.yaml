@@ -1,19 +1,5 @@
+root: true
 extends:
-  - eslint:recommended
-  - google
-env:
-  browser: true
-  es6: true
-  qunit: true
-  jquery: true
+  - eslint-config-mlauffer-ui5
 globals:
-  sap: true
   faker: true
-parserOptions:
-  ecmaVersion: 2018
-rules:
-  max-len: 0
-  strict: error
-  func-names: 0
-  valid-jsdoc: 0
-  prefer-rest-params: 0

@@ -83,7 +83,7 @@ function(Log, $, MockServer) {
     },
     {
       sapSemantics: 'bcc',
-      fakerMethod: 'internet.email',
+      fakerMethod: 'internet.email', //eslint-disable-line
     },
     {
       sapSemantics: 'cc',
