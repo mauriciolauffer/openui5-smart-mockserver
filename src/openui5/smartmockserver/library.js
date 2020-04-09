@@ -17,12 +17,12 @@ sap.ui.define([], function() {
   return sap.ui.getCore().initLibrary({
     name: 'openui5.smartmockserver',
     dependencies: [
-      'sap.ui.core',
+      'sap.ui.core'
     ],
     controls: [
-      'openui5.smartmockserver.SmartMockServer',
+      'openui5.smartmockserver.SmartMockServer'
     ],
     noLibraryCSS: true,
-    version: '${version}',
+    version: '${version}'
   });
 });
