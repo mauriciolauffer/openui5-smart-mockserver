@@ -1,12 +1,12 @@
 sap.ui.require([
   'sap/ui/thirdparty/qunit-2',
-  'sap/ui/thirdparty/sinon',
+  'sap/ui/thirdparty/sinon'
 ], function() {
   'use strict';
 
   sap.ui.require([
     'sap/ui/qunit/qunit-coverage',
-    'sap/ui/thirdparty/sinon-qunit',
+    'sap/ui/thirdparty/sinon-qunit'
   ], function() {
     QUnit.config.autostart = false;
     if (window.blanket) {
@@ -14,12 +14,12 @@ sap.ui.require([
       window.blanket.options('sap-ui-cover-never', 'openui5/smartmockserver/thirdparty');
     }
     sap.ui.require([
-      'test/unit/allTests',
+      'test/unit/allTests'
     ], function() {
       // Starting QUnit tests
-    },
+    }
     );
-  },
+  }
   );
-},
+}
 );

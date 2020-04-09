@@ -1,6 +1,6 @@
 sap.ui.define([
   'sap/ui/core/util/MockServer',
-  'openui5/smartmockserver/SmartMockServer',
+  'openui5/smartmockserver/SmartMockServer'
 ], function(MockServer, SmartMockServer) {
   'use strict';
 
@@ -16,7 +16,7 @@ sap.ui.define([
     const server = new SmartMockServer({rootUri: mockServerUrl});
     SmartMockServer.config({
       autoRespond: true,
-      autoRespondAfter: 1,
+      autoRespondAfter: 1
     });
     if (withSmartRules) {
       server.setSmartRules(getSmartRules());
@@ -32,13 +32,13 @@ sap.ui.define([
       properties: [
         {
           name: 'FirstName',
-          fakerMethod: 'name.firstName',
+          fakerMethod: 'name.firstName'
         },
         {
           name: 'Address',
-          fakerMethod: 'address.streetAddress',
-        },
-      ],
+          fakerMethod: 'address.streetAddress'
+        }
+      ]
     }];
   }
 
@@ -52,7 +52,7 @@ sap.ui.define([
   QUnit.module('SmartMockServer', {
     after: function() {
       mockServer.destroy();
-    },
+    }
   },
   function() {
     QUnit.module('constructor', () => {

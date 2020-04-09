@@ -3,5 +3,5 @@ sap.ui.define([
 ], function(Controller) {
   'use strict';
 
-  return Controller.extend('linkup.dialogo.seguranca.controller.App', {});
+  return Controller.extend('mlauffer.demo.openui5.smartmockserver.controller.App', {});
 });
