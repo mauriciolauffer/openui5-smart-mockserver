@@ -1,6 +1,6 @@
 sap.ui.define([
   'openui5/smartmockserver/SmartMockServer',
-  'mlauffer/demo/openui5/smartmockserver/Component',
+  'mlauffer/demo/openui5/smartmockserver/Component'
 ], function(SmartMockServer, Component) {
   'use strict';
 
@@ -13,49 +13,49 @@ sap.ui.define([
       properties: [
         {
           name: 'PhotoPath', // Entity's property name
-          fakerMethod: 'image.avatar', // Faker method which will be used for this property
+          fakerMethod: 'image.avatar' // Faker method which will be used for this property
         },
         {
           name: 'FirstName',
-          fakerMethod: 'name.firstName',
+          fakerMethod: 'name.firstName'
         },
         {
           name: 'LastName',
-          fakerMethod: 'name.lastName',
+          fakerMethod: 'name.lastName'
         },
         {
           name: 'Title',
-          fakerMethod: 'name.title',
+          fakerMethod: 'name.title'
         },
         {
           name: 'Address',
-          fakerMethod: 'address.streetAddress',
+          fakerMethod: 'address.streetAddress'
         },
         {
           name: 'Region',
-          fakerMethod: 'address.stateAbbr',
+          fakerMethod: 'address.stateAbbr'
         },
         {
           name: 'City',
-          fakerMethod: 'address.city',
+          fakerMethod: 'address.city'
         },
         {
           name: 'PostalCode',
-          fakerMethod: 'address.zipCode',
+          fakerMethod: 'address.zipCode'
         },
         {
           name: 'Country',
-          fakerMethod: 'address.countryCode',
+          fakerMethod: 'address.countryCode'
         },
         {
           name: 'HomePhone',
-          fakerMethod: 'phone.phoneNumber',
+          fakerMethod: 'phone.phoneNumber'
         },
         {
           name: 'Notes',
-          fakerMethod: 'internet.email',
-        },
-      ],
+          fakerMethod: 'internet.email'
+        }
+      ]
     }];
       // It's the only extra method you need to call to have meaningful mock data
       // for fields without OData SAP Semantics (sap:semantics)
@@ -72,18 +72,18 @@ sap.ui.define([
 
       SmartMockServer.config({
         autoRespond: true,
-        autoRespondAfter: 1,
+        autoRespondAfter: 1
       });
 
       // In case your metadata.xml doesn't have sap:semantics annotations, you can set Smart Rules manually
       useSmartRulesDefinedManually(mockServer);
 
       mockServer.simulate(metadataUrl, {
-        bGenerateMissingMockData: true,
+        bGenerateMissingMockData: true
       });
 
       mockServer.start();
-    },
+    }
   };
-},
+}
 );

@@ -15,10 +15,10 @@ module.exports = function(config) {
         preload: 'async',
         resourceroots: {
           'openui5.smartmockserver': 'base/src/openui5/smartmockserver',
-          'test.unit': 'base/test/openui5/smartmockserver/unit',
-        },
+          'test.unit': 'base/test/openui5/smartmockserver/unit'
+        }
       },
-      tests: ['test/unit/allTests'],
+      tests: ['test/unit/allTests']
     },
     client: {
       useIframe: false,
@@ -26,14 +26,14 @@ module.exports = function(config) {
         showUI: true,
         testTimeout: 20000, // 20 secs
         autostart: false,
-        noglobals: true,
-      },
+        noglobals: true
+      }
     },
     proxies: {
-      '/testdata/': '/base/test/openui5/smartmockserver/testdata/',
+      '/testdata/': '/base/test/openui5/smartmockserver/testdata/'
     },
     preprocessors: {
-      'src/**/!(thirdparty)/*.js': ['coverage'],
+      'src/**/!(thirdparty)/*.js': ['coverage']
     },
     coverageReporter: {
       type: 'lcov',
@@ -43,14 +43,14 @@ module.exports = function(config) {
           statements: 90,
           branches: 90,
           functions: 90,
-          lines: 90,
-        },
-      },
+          lines: 90
+        }
+      }
     },
     autoWatch: true,
     browsers: ['Chrome'],
     reporters: ['progress', 'coverage'],
     reportSlowerThan: 200,
-    singleRun: false,
+    singleRun: false
   });
 };
