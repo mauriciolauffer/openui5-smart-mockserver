@@ -1,6 +1,6 @@
 {
   "name": "openui5-smart-mockserver",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "An extended version of UI5 MockServer which generates meaningful mock data.",
   "homepage": "https://github.com/mauriciolauffer/openui5-smart-mockserver#readme",
   "author": "Mauricio Lauffer",
@@ -48,9 +48,7 @@
     "build": "ui5 build --clean-dest",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
-    "preversion": "npm run test-ci",
-    "version": "npm run build && git add -A dist",
-    "postversion": "git push && git push --tags"
+    "preversion": "npm run test-ci"
   },
   "repository": {
     "type": "git",
