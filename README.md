@@ -30,17 +30,23 @@ Faker.js: https://github.com/marak/Faker.js
 Faker.js methods: https://github.com/marak/Faker.js/#api-methods
 
 
+## Project Structure
+* demo - Library's live demo
+* demo-sw - Library's live demo with ServiceWorker
+* dist - Distribution folder that contains the library ready to use
+* src  - Development folder
+* test - Testing framework for the library
+
+
 ## Demo
 You can check out a live demo here:
 
 https://mauriciolauffer.github.io/openui5-smart-mockserver/demo/webapp/index.html
 
+## Demo with ServiceWorker
+And for a live demo using ServiceWorker:
 
-## Project Structure
-* demo - Demo site for the library
-* dist - Distribution folder that contains the library ready to use
-* src  - Development folder
-* test - Testing framework for the library
+https://mauriciolauffer.github.io/openui5-smart-mockserver/demo-sw/webapp/index.html
 
 
 ## Getting started
