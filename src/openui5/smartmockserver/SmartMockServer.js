@@ -400,5 +400,208 @@ function(Log, $, MockServer) {
     this._smartRules = smartRules || [];
   };
 
+
+  const messageType = {
+    REQUEST: 'REQUEST',
+    MOCK_RESPONSE: 'MOCK_RESPONSE',
+    REGISTER_MOCK_SERVER: 'REGISTER_MOCK_SERVER',
+    START_MOCK_SERVER: 'START_MOCK_SERVER',
+    STOP_MOCK_SERVER: 'STOP_MOCK_SERVER',
+    UNKNOWN_MESSAGE: 'UNKNOWN_MESSAGE'
+  };
+
+  /**
+   * Returns all mock servers
+   */
+  SmartMockServer.getAll = function() {
+    return MockServer._aServers;
+  };
+
+  /**
+   * Registers mock servers into ServiceWorker
+   */
+  SmartMockServer.registerServiceWorker = function(filename) {
+    // Generates request handlers
+    SmartMockServer.getAll().forEach(function(server) {
+      server.start();
+      server.stop();
+    });
+    navigator.serviceWorker.addEventListener('message', onServiceWorkerMessage);
+
+    return navigator.serviceWorker.register(filename)
+        .then(function() {
+          prefilterSyncAjaxRequests();
+          const servers = getMockServerRegisterPayload();
+          return sendMessageToServiceWorker(messageType.REGISTER_MOCK_SERVER, servers);
+        })
+        .catch(function(err) {
+          Log.error('ServiceWorker not registered!');
+          Log.error(err);
+        });
+  };
+
+  /**
+   * Returns whether mock server's ServiceWorker has been started
+   */
+  SmartMockServer.prototype.isServiceWorkerStarted = function() {
+    return this._isServiceWorkerStarted;
+  };
+
+  /**
+   * Starts mock server's ServiceWorker
+   */
+  SmartMockServer.prototype.startServiceWorker = function() {
+    this._isServiceWorkerStarted = true;
+    const payload = {
+      rootUri: this.getRootUri(),
+      active: this.isServiceWorkerStarted()
+    };
+    return sendMessageToServiceWorker(messageType.START_MOCK_SERVER, payload);
+  };
+
+  /**
+   * Stops mock server's ServiceWorker
+   */
+  SmartMockServer.prototype.stopServiceWorker = function() {
+    this._isServiceWorkerStarted = false;
+    const payload = {
+      rootUri: this.getRootUri(),
+      active: this.isServiceWorkerStarted()
+    };
+    return sendMessageToServiceWorker(messageType.STOP_MOCK_SERVER, payload);
+  };
+
+  function prefilterSyncAjaxRequests() {
+    $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+      if (options.async) {
+        return;
+      }
+      const server = getMockServerByRootUri(options.url);
+      if (!server) {
+        return;
+      }
+      const capturedRequest = {
+        url: options.url,
+        method: options.type,
+        mockServer: {
+          path: 'JUST_TO_AVOID_TO_BE_FOUND'
+        }
+      };
+      const mockRequest = getMockRequest(capturedRequest, server);
+      if (!mockRequest) {
+        return;
+      }
+      try {
+        options.beforeSend = function(jqXHR, settings) {
+          server.start();
+          settings.url = settings.url.replace(window.location.origin, '');
+        };
+        jqXHR.complete(function() {
+          server.stop();
+        });
+      } catch (err) {
+        Log.error(err);
+      }
+    });
+  }
+
+  function getMockServerByRootUri(url) {
+    return SmartMockServer.getAll()
+        .filter(function(server) {
+          const rootUriRegxp = new RegExp(server.getRootUri());
+          return rootUriRegxp.test(url);
+        })[0];
+  }
+
+  function getMockRequest(capturedRequest, server) {
+    if (!server) {
+      return;
+    }
+    return server.getRequests()
+        .filter(function(req) {
+          if (req.method.toLowerCase() !== capturedRequest.method.toLowerCase()) {
+            return false;
+          }
+          const isServiceRootUri = req.path.toString() === '/$/';
+          if (isServiceRootUri && capturedRequest.mockServer.path === '$') {
+            return isServiceRootUri;
+          } else if (!isServiceRootUri) {
+            return req.path instanceof RegExp ? req.path.test(capturedRequest.url) : req.path === capturedRequest.url;
+          }
+        })[0];
+  }
+
+  function onServiceWorkerMessage(evt) {
+    if (evt.data.type !== messageType.REQUEST) {
+      return;
+    }
+    captureRequest(evt.data.payload)
+        .then(function(mockResponse) {
+          evt.ports[0].postMessage({
+            type: messageType.MOCK_RESPONSE,
+            payload: JSON.stringify(mockResponse)
+          });
+        })
+        .catch(function(err) {
+          Log.error(err);
+          evt.ports[0].postMessage({
+            type: messageType.MOCK_RESPONSE,
+            error: true,
+            payload: JSON.stringify(err)
+          });
+        });
+  }
+
+  function captureRequest(payload) {
+    return new Promise(function(resolve, reject) {
+      const capturedRequest = JSON.parse(payload);
+      const server = getMockServerByRootUri(capturedRequest.url);
+      const mockRequest = getMockRequest(capturedRequest, server);
+      if (!mockRequest) {
+        reject(new Error('No request was found in MockServer'));
+      }
+      const xhr = Object.assign({}, capturedRequest);
+      const args = typeof mockRequest.path.exec === 'function' ? mockRequest.path.exec(xhr.url).slice(1) : [];
+      xhr.respond = function() {
+        resolve(arguments);
+      };
+      xhr.respondFile = xhr.respondJSON = xhr.respondXML = xhr.respond;
+      mockRequest.response(xhr, args[0], args[1]);
+    });
+  }
+
+  function getMockServerRegisterPayload() {
+    return SmartMockServer.getAll().map(function(server) {
+      const requests = server.getRequests().map(function(request) {
+        const newRequest = {
+          method: request.method,
+          path: request.path,
+          isRegExp: request.path instanceof RegExp
+        };
+        if (newRequest.isRegExp) { // Convert RegExp to String as it cannot be serialized
+          const pathString = newRequest.path.toString();
+          const pathRegExpBase = pathString.substring(pathString.indexOf('/') + 1, pathString.lastIndexOf('/'));
+          const isServiceRootUri = pathString === '/$/';
+          newRequest.path = isServiceRootUri ? '$' : pathRegExpBase;
+        }
+        return newRequest;
+      });
+      return {
+        active: false,
+        rootUri: server.getRootUri(),
+        requests: requests
+      };
+    });
+  }
+
+  function sendMessageToServiceWorker(type, payload) {
+    return navigator.serviceWorker.ready
+        .then(function(swRegistration) {
+          swRegistration.active.postMessage({
+            type: type,
+            payload: JSON.stringify(payload)
+          });
+        });
+  }
   return SmartMockServer;
 });
