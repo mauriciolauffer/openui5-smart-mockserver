@@ -45,7 +45,7 @@
     "start": "ui5 serve",
     "test": "karma start",
     "test-ci": "karma start karma.ci.conf",
-    "build": "ui5 build --clean-dist",
+    "build": "ui5 build --clean-dest",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "preversion": "npm run test-ci",

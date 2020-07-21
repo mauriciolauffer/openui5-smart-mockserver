@@ -6,3 +6,7 @@ metadata:
      * (c) Copyright 2018-${currentYear} Mauricio Lauffer
      * Licensed under the MIT license. See LICENSE file in the project root for full license information.
 type: library
+builder:
+  resources:
+    excludes:
+    - "/**/SmartMockServerServiceWorker.js"
