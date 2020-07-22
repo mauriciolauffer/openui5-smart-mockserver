@@ -5,7 +5,7 @@
     "i18n": "i18n/i18n.properties",
     "dataSources": {
       "NORTHWIND": {
-        "uri": "http://services.odata.org/V2/Northwind/Northwind.svc/",
+        "uri": "https://services.odata.org/V2/Northwind/Northwind.svc/",
         "settings": {
           "localUri": "localService/metadata.xml"
         }
@@ -24,10 +24,7 @@
       "": {
 				"type": "sap.ui.model.odata.v2.ODataModel",
         "dataSource": "NORTHWIND",
-        "preload": true,
-        "settings": {
-					"useBatch": true
-				}
+        "preload": true
       },
 			"i18n": {
 				"type": "sap.ui.model.resource.ResourceModel",
