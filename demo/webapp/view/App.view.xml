@@ -33,7 +33,7 @@
                     <items>
                         <ColumnListItem>
                             <cells>
-                                <Image src="{photo}" width="32px" heigth="32px" densityAware="false" />
+                                <Image src="{photo}" width="32px" height="32px" densityAware="false" />
                                 <Text text="{givenname}" />
                                 <Text text="{middlename}" />
                                 <Text text="{familyname}" />
@@ -207,7 +207,7 @@
                     <items>
                         <ColumnListItem>
                             <cells>
-                                <Image src="{PhotoPath}" width="32px" heigth="32px" densityAware="false" />
+                                <Image src="{PhotoPath}" width="32px" height="32px" densityAware="false" />
                                 <Text text="{FirstName} {LastName}" />
                                 <Text text="{Title}" />
                                 <Text text="{Address}" />
