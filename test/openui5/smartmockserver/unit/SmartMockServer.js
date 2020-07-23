@@ -69,19 +69,19 @@ sap.ui.define([
         const entityType = getEntityType(entityNameWithoutSmartRules);
         const mockEntity = mockServer._generateDataFromEntityOriginal(entityType, 1);
         assert.deepEqual(mockEntity.Address, 'Address 1');
-        assert.deepEqual(mockEntity.CompanyName, 'CompanyName 1');
+        assert.deepEqual(mockEntity.CompanyName, 'CompanyName 1'); // eslint-disable-line
       });
     });
 
     QUnit.module('_generateDataFromEntity', () => {
-      test('Should generate smart mock data only for properties with Smart Rules assigned to', (assert) => {
+      test('Should generate smart mock data only for properties with Smart Rules assigned to', (assert) => { // eslint-disable-line
         const entityType = getEntityType(entityNameWithSmartRules);
         const mockEntity = mockServer._generateDataFromEntity(entityType, 1);
         assert.ok(mockEntity.Address);
         assert.ok(mockEntity.FirstName);
         assert.ok(mockEntity.Country);
         assert.notEqual(mockEntity.Address, 'Address 1');
-        assert.notEqual(mockEntity.FirstName, 'FirstName 1');
+        assert.notEqual(mockEntity.FirstName, 'FirstName 1'); // eslint-disable-line
         assert.deepEqual(mockEntity.Country, 'Country 1');
       });
 
@@ -151,7 +151,7 @@ sap.ui.define([
         assert.deepEqual(mockEntity.Country, 'Country 1');
       });
 
-      test('Should return the same received mock data, no changes', (assert) => {
+      test('Should return the same received mock data, no changes', (assert) => { // eslint-disable-line
         const entityType = getEntityType(entityNameWithoutSmartRules);
         const mockEntity = mockServer._generateDataFromEntityOriginal(entityType, 1);
         const smartMockEntity = mockServer._generateDataFromEntityWithSmartRules(entityType.name, mockEntity);

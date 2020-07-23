@@ -40,8 +40,8 @@
     "test": "karma start",
     "test-ci": "karma start karma.ci.conf",
     "build": "ui5 build --clean-dest",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
+    "lint": "eslint src && eslint test",
+    "lint:fix": "eslint src --fix && eslint test --fix",
     "preversion": "npm run test-ci"
   },
   "repository": {

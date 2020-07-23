@@ -33,7 +33,7 @@ function onMessageSmartMockServer(evt) {
       setMockServerStatus(evt.data.payload);
     }
   } catch (err) {
-    console.error(err);
+    console.error(err); // eslint-disable-line
   }
 }
 
@@ -59,7 +59,7 @@ function onFetchSmartMockServer(evt) {
             return buildResponse(mockResponse.payload);
           })
           .catch(function(err) {
-            console.error(err);
+            console.error(err); // eslint-disable-line
             return buildErrorResponse();
           })
   );
