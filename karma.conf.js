@@ -2,32 +2,9 @@ module.exports = function(config) {
   'use strict';
 
   config.set({
-    frameworks: ['qunit', 'sinon', 'ui5'],
+    frameworks: ['ui5'],
     ui5: {
-      mode: 'script',
-      type: 'library',
-      url: 'http://localhost:8080',
-      config: {
-        animation: 'false',
-        compatVersion: 'edge',
-        language: 'en',
-        logLevel: 'WARNING',
-        preload: 'async',
-        resourceroots: {
-          'openui5.smartmockserver': 'base/src/openui5/smartmockserver',
-          'test.unit': 'base/test/openui5/smartmockserver/unit'
-        }
-      },
-      tests: ['test/unit/allTests']
-    },
-    client: {
-      useIframe: false,
-      qunit: {
-        showUI: true,
-        testTimeout: 20000, // 20 secs
-        autostart: false,
-        noglobals: true
-      }
+      type: 'library'
     },
     proxies: {
       '/testdata/': '/base/test/openui5/smartmockserver/testdata/'
@@ -47,8 +24,13 @@ module.exports = function(config) {
         }
       }
     },
-    autoWatch: true,
     browsers: ['Chrome'],
+    browserConsoleLogOptions: {
+      level: 'error'
+    },
+    logLevel: config.LOG_ERROR,
+    autoWatch: true,
+    useIframe: false,
     reporters: ['progress', 'coverage'],
     reportSlowerThan: 200,
     singleRun: false

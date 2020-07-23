@@ -1,4 +1,4 @@
-specVersion: '2.0'
+specVersion: '2.1'
 metadata:
   name: openui5-smart-mockserver
   copyright: |-
@@ -10,3 +10,8 @@ builder:
   resources:
     excludes:
     - "/**/SmartMockServerServiceWorker.js"
+framework:
+  name: OpenUI5
+  version: 1.80.0
+  libraries:
+    - name: sap.ui.core
