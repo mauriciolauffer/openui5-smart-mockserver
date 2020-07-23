@@ -340,9 +340,9 @@ function(Log, $, MockServer) {
    * @private
    */
   SmartMockServer.prototype._getSmartRulesEntity = function(entityName) {
-    return this._smartRules.find(function(item) {
+    return this._smartRules.filter(function(item) {
       return item.entityName === entityName;
-    });
+    })[0];
   };
 
   /**
@@ -397,7 +397,8 @@ function(Log, $, MockServer) {
    * @public
    */
   SmartMockServer.prototype.setSmartRules = function(smartRules) {
-    this._smartRules = smartRules || [];
+    // this._smartRules = smartRules || [];
+    this._smartRules = (typeof smartRules === 'object' && smartRules.length) ? smartRules : [];
   };
 
 
