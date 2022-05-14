@@ -1,4 +1,4 @@
-specVersion: '2.2'
+specVersion: '2.6'
 metadata:
   name: openui5-smart-mockserver
   copyright: |-
@@ -6,12 +6,23 @@ metadata:
      * (c) Copyright 2018-${currentYear} Mauricio Lauffer
      * Licensed under the MIT license. See LICENSE file in the project root for full license information.
 type: library
-builder:
-  resources:
-    excludes:
-    - "/**/SmartMockServerServiceWorker.js"
 framework:
   name: OpenUI5
   version: 1.96.0
   libraries:
     - name: sap.ui.core
+builder:
+  resources:
+    excludes:
+      - "/**/SmartMockServerServiceWorker.js"
+      - "/test-resources/**"
+  libraryPreload:
+    excludes:
+      - "openui5/smartmockserver/thirdparty/**"
+  customTasks:
+    - name: ui5-task-copy-resources
+      afterTask: uglify
+      configuration:
+        includeDependencies: true
+        resources:
+          - "/resources/openui5/smartmockserver/thirdparty/**"

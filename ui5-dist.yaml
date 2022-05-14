@@ -1,4 +1,4 @@
-specVersion: "2.2"
+specVersion: "2.6"
 metadata:
   name: openui5-smart-mockserver
 type: library
