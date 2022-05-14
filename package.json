@@ -26,7 +26,7 @@
     "ui5.yaml"
   ],
   "dependencies": {
-    "faker": "^6.6.6"
+    "@faker-js/faker": "^6.3.1"
   },
   "devDependencies": {
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
@@ -39,6 +39,11 @@
     "karma-coveralls": "^2.1.0",
     "karma-ui5": "^2.4.0",
     "ui5-task-copy-resources": "^0.0.1"
+  },
+  "ui5": {
+    "dependencies": [
+      "ui5-task-copy-resources"
+    ]
   },
   "scripts": {
     "start": "ui5 serve",
