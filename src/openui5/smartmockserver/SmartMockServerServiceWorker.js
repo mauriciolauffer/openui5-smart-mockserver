@@ -1,3 +1,5 @@
+'use strict';
+
 const mockServers = [];
 const messageType = {
   REQUEST: 'REQUEST',
@@ -13,18 +15,27 @@ self.addEventListener('activate', onActivateSmartMockServer);
 self.addEventListener('message', onMessageSmartMockServer);
 self.addEventListener('fetch', onFetchSmartMockServer);
 
+/**
+ *
+ * @param evt
+ */
 function onInstallSmartMockServer(evt) {
-  'use strict';
   return self.skipWaiting();
 }
 
+/**
+ *
+ * @param evt
+ */
 function onActivateSmartMockServer(evt) {
-  'use strict';
   return self.clients.claim();
 }
 
+/**
+ *
+ * @param evt
+ */
 function onMessageSmartMockServer(evt) {
-  'use strict';
   try {
     const type = evt.data.type;
     if (type === messageType.REGISTER_MOCK_SERVER) {
@@ -37,8 +48,11 @@ function onMessageSmartMockServer(evt) {
   }
 }
 
+/**
+ *
+ * @param evt
+ */
 function onFetchSmartMockServer(evt) {
-  'use strict';
   const server = getMockServer(evt.request);
   const mockRequest = getMockRequest(evt.request, server);
   if (!mockRequest) {
@@ -65,8 +79,12 @@ function onFetchSmartMockServer(evt) {
   );
 }
 
+/**
+ *
+ * @param client
+ * @param message
+ */
 function sendToClient(client, message) {
-  'use strict';
   return new Promise(function(resolve, reject) {
     const channel = new MessageChannel();
     channel.port1.onmessage = function(evt) {
@@ -83,8 +101,11 @@ function sendToClient(client, message) {
   });
 }
 
+/**
+ *
+ * @param headers
+ */
 function extractHeaders(headers) {
-  'use strict';
   const mockHeaders = {};
   headers.forEach(function(value, key) {
     mockHeaders[key] = mockHeaders[key] ? [].concat(mockHeaders[key]).concat(value) : value;
@@ -92,8 +113,11 @@ function extractHeaders(headers) {
   return mockHeaders;
 }
 
+/**
+ *
+ * @param xhrHeaders
+ */
 function buildHeaders(xhrHeaders) {
-  'use strict';
   const headers = new Headers();
   Object.keys(xhrHeaders).forEach(function(key) {
     headers.append(key.toString(), xhrHeaders[key]);
@@ -101,8 +125,11 @@ function buildHeaders(xhrHeaders) {
   return headers;
 }
 
+/**
+ *
+ * @param payload
+ */
 function registerMockServers(payload) {
-  'use strict';
   const servers = JSON.parse(payload);
   if (servers.length) {
     servers.forEach(function(server) {
@@ -114,8 +141,11 @@ function registerMockServers(payload) {
   }
 }
 
+/**
+ *
+ * @param payload
+ */
 function setMockServerStatus(payload) {
-  'use strict';
   const serverInfo = JSON.parse(payload);
   mockServers
       .filter(function(server) {
@@ -126,16 +156,23 @@ function setMockServerStatus(payload) {
       });
 }
 
+/**
+ *
+ * @param originalRequest
+ */
 function getMockServer(originalRequest) {
-  'use strict';
   return mockServers.find(function(server) {
     const regxp = new RegExp(server.rootUri);
     return server.active && regxp.test(originalRequest.url);
   });
 }
 
+/**
+ *
+ * @param originalRequest
+ * @param server
+ */
 function getMockRequest(originalRequest, server) {
-  'use strict';
   if (!server) {
     return;
   }
@@ -148,8 +185,13 @@ function getMockRequest(originalRequest, server) {
       });
 }
 
+/**
+ *
+ * @param originalRequest
+ * @param server
+ * @param mockRequest
+ */
 function buildXhrRequest(originalRequest, server, mockRequest) {
-  'use strict';
   return originalRequest.text()
       .then(function(body) {
         return {
@@ -166,8 +208,11 @@ function buildXhrRequest(originalRequest, server, mockRequest) {
       });
 }
 
+/**
+ *
+ * @param payload
+ */
 function buildResponse(payload) {
-  'use strict';
   const xhrResponse = JSON.parse(payload);
   return new Response(xhrResponse[2] || null, {
     status: xhrResponse[0] || 500,
@@ -176,8 +221,10 @@ function buildResponse(payload) {
   });
 }
 
+/**
+ *
+ */
 function buildErrorResponse() {
-  'use strict';
   return new Response(null, {
     status: 500,
     statusText: 'Something wrong happened when trying to mock this request!',

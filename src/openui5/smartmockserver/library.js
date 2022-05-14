@@ -1,10 +1,20 @@
+'use strict';
+
 /*
  * ${copyright}
  */
 
-sap.ui.define([], function() {
-  'use strict';
-
+sap.ui.define([
+  'sap/ui/core/Core',
+  'sap/ui/core/library'
+],
+/**
+ * Module Dependencies
+ *
+ * @param {sap.ui.core.Core} Core - sap.ui.core.Core
+ * @returns {object} openui5.smartmockserver library
+ */
+function(Core) {
   /**
    * OpenUI5 library: openui5.smartmockserver
    *
@@ -14,7 +24,7 @@ sap.ui.define([], function() {
    * @version ${version}
    * @public
    */
-  return sap.ui.getCore().initLibrary({
+  Core.initLibrary({
     name: 'openui5.smartmockserver',
     dependencies: [
       'sap.ui.core'
@@ -25,4 +35,6 @@ sap.ui.define([], function() {
     noLibraryCSS: true,
     version: '${version}'
   });
+
+  return openui5.smartmockserver; // eslint-disable-line
 });

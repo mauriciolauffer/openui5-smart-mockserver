@@ -1,9 +1,9 @@
+'use strict';
+
 sap.ui.define([
   'openui5/smartmockserver/SmartMockServer',
   'mlauffer/demo/openui5/smartmockserver/Component'
 ], function(SmartMockServer, Component) {
-  'use strict';
-
   /*
     In case your metadata.xml doesn't have sap:semantics annotations, you can set Smart Rules manually
     */

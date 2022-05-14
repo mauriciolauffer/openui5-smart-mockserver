@@ -1,15 +1,19 @@
+'use strict';
+
 sap.ui.define([
   'sap/ui/core/util/MockServer',
   'openui5/smartmockserver/SmartMockServer'
 ], function(MockServer, SmartMockServer) {
-  'use strict';
-
   const entityNameWithoutSmartRules = 'Customer';
   const entityNameWithSmartRules = 'Employee';
   const entityNameWithSapSemantics = 'SAPSemanticEntity';
   const entityNameWithSmartMockServerAnnotations = 'SmartMockServerAnnotationsEntity';
   const mockServer = buildMockServer(true);
 
+  /**
+   *
+   * @param withSmartRules
+   */
   function buildMockServer(withSmartRules) {
     const mockServerUrl = '/';
     const metadataUrl = '../testdata/metadata.xml';
@@ -26,6 +30,9 @@ sap.ui.define([
     return server;
   }
 
+  /**
+   *
+   */
   function getSmartRules() {
     return [{
       entityName: entityNameWithSmartRules,
@@ -42,6 +49,10 @@ sap.ui.define([
     }];
   }
 
+  /**
+   *
+   * @param entityName
+   */
   function getEntityType(entityName) {
     return mockServer._mEntityTypes[entityName];
   }
@@ -177,7 +188,8 @@ sap.ui.define([
           errorRaised = err;
         }
         assert.deepEqual(errorRaised instanceof Error, true);
-        assert.deepEqual(errorRaised.toString(), 'TypeError: Cannot read property \'fakerMethod\' of undefined');
+        assert.deepEqual(errorRaised.name, 'TypeError');
+        assert.notEqual(errorRaised.message.indexOf('fakerMethod'), -1);
       });
     });
 

@@ -1,3 +1,5 @@
+'use strict';
+
 sap.ui.require([
   'sap/base/Log',
   'mlauffer/demo/openui5/smartmockserver/localService/mockserver'
@@ -7,8 +9,6 @@ sap.ui.require([
  * @param {object} mockserver
  */
 function(Log, mockserver) {
-  'use strict';
-
   mockserver.init()
       .then(function() {
         Log.info('SmartMockServer has been initiated!');
