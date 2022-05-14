@@ -12,7 +12,6 @@ builder:
     - "/**/SmartMockServerServiceWorker.js"
 framework:
   name: OpenUI5
-  version: 1.80.0
+  version: 1.96.0
   libraries:
     - name: sap.ui.core
-      development: true

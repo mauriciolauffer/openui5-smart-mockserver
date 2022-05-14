@@ -1,13 +1,19 @@
 {
-    "compilerOptions": {
-      "module": "none",
-      "target": "es2018",
-      "noEmit": true,
-      "checkJs": true,
-      "allowJs": true,
-      "strict": true,
-      "diagnostics": true,
-      "extendedDiagnostics": true,
-      "types": ["@openui5/ts-types"]
-    }
-  }
+  "compilerOptions": {
+    "module": "None",
+    "target": "ES2018",
+    "noEmit": true,
+    "checkJs": true,
+    "strict": true,
+    "allowJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": false,
+    "skipLibCheck": true,
+    "outDir": "types",
+    "types": [
+      "@openui5/ts-types"
+    ]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["test/**/*", "node_modules"]
+}

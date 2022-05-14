@@ -1,14 +1,14 @@
-module.exports = function(config) {
-  'use strict';
+'use strict';
 
+module.exports = function(config) {
   config.set({
     frameworks: ['ui5'],
     ui5: {
       type: 'library'
     },
-    proxies: {
+    /* proxies: {
       '/testdata/': '/base/test/openui5/smartmockserver/testdata/'
-    },
+    }, */
     preprocessors: {
       'src/**/!(thirdparty)/*.js': ['coverage']
     },

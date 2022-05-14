@@ -19,32 +19,36 @@
     "smarter"
   ],
   "main": "dist/resources/openui5/smartmockserver/library-preload.js",
+  "browser": "dist/resources/openui5/smartmockserver/library-preload.js",
   "files": [
     "dist",
     "src",
     "ui5.yaml"
   ],
   "dependencies": {
-    "faker": "^5.1.0"
+    "faker": "^6.6.6"
   },
   "devDependencies": {
-    "@openui5/ts-types": "^1.60.5",
-    "eslint": "^7.11.0",
-    "eslint-config-mlauffer-ui5": "0.0.4",
-    "karma": "^5.2.3",
-    "karma-chrome-launcher": "^3.1.0",
-    "karma-coverage": "^2.0.3",
+    "@microsoft/eslint-formatter-sarif": "^3.0.0",
+    "@openui5/ts-types": "^1.101.0",
+    "eslint": "^8.15.0",
+    "eslint-config-mlauffer-ui5": "^0.3.2",
+    "karma": "^6.3.20",
+    "karma-chrome-launcher": "^3.1.1",
+    "karma-coverage": "^2.2.0",
     "karma-coveralls": "^2.1.0",
-    "karma-ui5": "^2.3.1"
+    "karma-ui5": "^2.4.0",
+    "ui5-task-copy-resources": "^0.0.1"
   },
   "scripts": {
     "start": "ui5 serve",
+    "start:dist": "ui5 serve --config ui5-dist.yaml",
     "test": "karma start",
-    "test-ci": "karma start karma.ci.conf",
+    "test:ci": "karma start karma.ci.conf",
     "build": "ui5 build --clean-dest",
     "lint": "eslint src && eslint test",
     "lint:fix": "eslint src --fix && eslint test --fix",
-    "preversion": "npm run test-ci"
+    "lint:ci": "eslint src test -f @microsoft/eslint-formatter-sarif -o target/eslint.sarif"
   },
   "repository": {
     "type": "git",
