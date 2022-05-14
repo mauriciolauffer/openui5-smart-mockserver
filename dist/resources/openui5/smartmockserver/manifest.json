@@ -3,7 +3,7 @@
     "id": "openui5.smartmockserver",
     "type": "library",
     "applicationVersion": {
-      "version": "0.3.0"
+      "version": "0.3.1"
     },
     "title": "An extended version of UI5 MockServer which generates meaningful mock data."
   },

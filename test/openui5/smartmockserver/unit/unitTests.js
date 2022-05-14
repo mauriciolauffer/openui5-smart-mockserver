@@ -1,10 +1,11 @@
+'use strict';
+
 QUnit.config.autostart = false;
 QUnit.config.reorder = false;
 
 sap.ui.getCore().attachInit(function() {
-  'use strict';
-
   sap.ui.require([
+    'openui5/smartmockserver/library',
     'test/unit/allTests'
   ], function() {
     if (window.blanket) {
