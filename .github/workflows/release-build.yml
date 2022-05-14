@@ -1,0 +1,29 @@
+name: release-build
+on:
+  push:
+    branches: [release-please--branches--master]
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+  release-build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: 'release-please--branches--master'
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: npm
+    - run: |
+        npm i @ui5/cli -g --ignore-scripts
+        npm ci --ignore-scripts
+        npm run build
+    - run: |
+        git config user.name github-actions[bot]
+        git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+        git add .
+        git commit -m "build: Build before release"
+        git push

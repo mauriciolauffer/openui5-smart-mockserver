@@ -1,10 +1,14 @@
-module.exports = function(config) {
-  'use strict';
+'use strict';
 
+module.exports = function(config) {
   require('./karma.conf')(config);
   config.set({
+    ui5: {
+      type: 'library',
+      configPath: 'ui5-dist.yaml'
+    },
     browsers: ['ChromeHeadless'],
-    reporters: ['progress', 'coverage', 'coveralls'],
+    reporters: [...config.reporters, 'coveralls'],
     singleRun: true
   });
 };

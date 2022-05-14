@@ -1,0 +1,13 @@
+specVersion: "2.2"
+metadata:
+  name: openui5-smart-mockserver
+type: library
+resources:
+  configuration:
+    paths:
+      src: dist/resources
+framework:
+  name: OpenUI5
+  version: 1.96.0
+  libraries:
+    - name: sap.ui.core
