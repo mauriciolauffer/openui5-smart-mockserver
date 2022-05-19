@@ -1,9 +1,6 @@
 # openui5-smart-mockserver
 
-![Travis (.org)](https://img.shields.io/travis/mauriciolauffer/openui5-smart-mockserver)
-[![npm](https://img.shields.io/npm/v/openui5-smart-mockserver)](https://www.npmjs.com/package/openui5-smart-mockserver)
-![NPM](https://img.shields.io/npm/l/openui5-smart-mockserver)
-[![linkedin-shield](https://img.shields.io/badge/LinkedIn-black?style=flat-square&logo=linkedin&colorB=555)](https://www.linkedin.com/in/mauriciolauffer)
+[![npm](https://img.shields.io/npm/v/openui5-smart-mockserver)](https://www.npmjs.com/package/openui5-smart-mockserver) [![test](https://github.com/mauriciolauffer/openui5-smart-mockserver/actions/workflows/test.yml/badge.svg)](https://github.com/mauriciolauffer/openui5-smart-mockserver/actions/workflows/test.yml)
 
 An extended and smarter version of UI5 MockServer for meaningful mock data.
 
