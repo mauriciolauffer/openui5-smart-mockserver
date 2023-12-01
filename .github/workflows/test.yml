@@ -12,20 +12,17 @@ jobs:
     permissions:
       security-events: write
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         persist-credentials: false
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
-        node-version: 16
         cache: npm
-    - run: |
-        mkdir target
-        npm i @ui5/cli --ignore-scripts
-        npm ci --ignore-scripts
-        npm run build
-        npm run lint:ci
-    - uses: github/codeql-action/upload-sarif@v1
+    - run: npm i -g @ui5/cli concurrently --ignore-scripts
+    - run: npm ci --ignore-scripts
+    - run: npm run build
+    - run: npm run lint:ci
+    - run: concurrently  --kill-others --success last "npm:start:dist" "npm:test:ci"
+    - uses: github/codeql-action/upload-sarif@v2
       with:
         sarif_file: target/eslint.sarif
-    - run: npm run test:ci
