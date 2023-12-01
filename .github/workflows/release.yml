@@ -1,30 +1,19 @@
 name: release
 on:
   push:
-    branches: [master, main]
+    branches: [master]
+
+permissions: read-all
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
-      - uses: GoogleCloudPlatform/release-please-action@v3
+      - uses: google-github-actions/release-please-action@v3
         with:
+          token: ${{ secrets.GH_PAT }}
           release-type: node
           package-name: openui5-smart-mockserver
-      - run: echo ${{ steps.release.outputs.release_created }}
-      - run: echo ${{ steps.release.outputs.tag_name }}
-      - run: echo ${{ steps.release.outputs.sha }}
-      - run: echo ${{ steps.release.outputs.pr }}
-      - uses: actions/checkout@v3
-        if: ${{ steps.release.outputs.release_created }}
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: npm
-        if: ${{ steps.release.outputs.release_created }}
-      - run: npm ci --ignore-scripts
-        if: ${{ steps.release.outputs.release_created }}
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-        if: ${{ steps.release.outputs.release_created }}

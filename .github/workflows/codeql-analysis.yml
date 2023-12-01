@@ -15,8 +15,6 @@ on:
   push:
     branches: [ master ]
   pull_request:
-  schedule:
-    - cron: '20 5 * * 1'
 
 permissions: read-all
 
@@ -36,7 +34,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         persist-credentials: false
 
