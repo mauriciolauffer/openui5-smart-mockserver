@@ -5,24 +5,23 @@
  */
 
 sap.ui.define([
+  'openui5/smartmockserver/library',
   'sap/base/Log',
   'sap/ui/thirdparty/jquery',
-  'sap/ui/core/util/MockServer',
-  'openui5/smartmockserver/thirdparty/faker.min'
+  'sap/ui/core/util/MockServer'
 ],
 /**
  * Module Dependencies
- *
+ * @param {openui5.smartmockserver} library UI5 MockServer
  * @param {sap.base.Log} Log UI5 logger
  * @param {sap.ui.thirdparty.jquery} $ jQuery
  * @param {sap.ui.core.util.MockServer} MockServer UI5 MockServer
  * @returns {object} SmartMockServer object, an extended UI5 MockServer control
  */
-function(Log, $, MockServer) {
+function(library, Log, $, MockServer) {
   /**
    * OpenUI5 SmartMockServer.
    * SmartMockServer generates meaningful mock data
-   *
    * @author Mauricio Lauffer
    * @version ${version}
    * @class
@@ -35,127 +34,11 @@ function(Log, $, MockServer) {
 
   SmartMockServer.prototype._generateDataFromEntityOriginal = SmartMockServer.prototype._generateDataFromEntity;
 
-  /*
-  Mapping between SAP Semantics annotations and Faker methods
-  https://wiki.scn.sap.com/wiki/display/EmTech/SAP+Annotations+for+OData+Version+2.0#SAPAnnotationsforODataVersion2.0-Property_sap_semanticsAttributesap:semantics
-   */
-  SmartMockServer.prototype.SAP_SEMANTICS_TO_FAKER_METHOD_MAPPING = [
-    {
-      sapSemantics: 'city',
-      fakerMethod: 'address.city'
-    },
-    {
-      sapSemantics: 'country',
-      fakerMethod: 'address.country'
-    },
-    {
-      sapSemantics: 'geo-lat',
-      fakerMethod: 'address.latitude'
-    },
-    {
-      sapSemantics: 'geo-lon',
-      fakerMethod: 'address.longitude'
-    },
-    {
-      sapSemantics: 'region',
-      fakerMethod: 'address.state'
-    },
-    {
-      sapSemantics: 'street',
-      fakerMethod: 'address.streetAddress'
-    },
-    {
-      sapSemantics: 'zip',
-      fakerMethod: 'address.zipCode'
-    },
-    {
-      sapSemantics: 'org',
-      fakerMethod: 'company.companyName'
-    },
-    {
-      sapSemantics: 'currency-code',
-      fakerMethod: 'finance.currencyCode'
-    },
-    {
-      sapSemantics: 'photo',
-      fakerMethod: 'image.avatar'
-    },
-    {
-      sapSemantics: 'bcc',
-      fakerMethod: 'internet.email', //eslint-disable-line
-    },
-    {
-      sapSemantics: 'cc',
-      fakerMethod: 'internet.email'
-    },
-    {
-      sapSemantics: 'email',
-      fakerMethod: 'internet.email'
-    },
-    {
-      sapSemantics: 'from',
-      fakerMethod: 'internet.email'
-    },
-    {
-      sapSemantics: 'sender',
-      fakerMethod: 'internet.email'
-    },
-    {
-      sapSemantics: 'to',
-      fakerMethod: 'internet.email'
-    },
-    {
-      sapSemantics: 'url',
-      fakerMethod: 'internet.url'
-    },
-    {
-      sapSemantics: 'body',
-      fakerMethod: 'lorem.paragraphs'
-    },
-    {
-      sapSemantics: 'subject',
-      fakerMethod: 'lorem.sentence'
-    },
-    {
-      sapSemantics: 'name',
-      fakerMethod: 'name.findName'
-    },
-    {
-      sapSemantics: 'givenname',
-      fakerMethod: 'name.firstName'
-    },
-    {
-      sapSemantics: 'middlename',
-      fakerMethod: 'name.firstName'
-    },
-    {
-      sapSemantics: 'title',
-      fakerMethod: 'name.jobTitle'
-    },
-    {
-      sapSemantics: 'familyname',
-      fakerMethod: 'name.lastName'
-    },
-    {
-      sapSemantics: 'honorific',
-      fakerMethod: 'name.prefix'
-    },
-    {
-      sapSemantics: 'suffix',
-      fakerMethod: 'name.suffix'
-    },
-    {
-      sapSemantics: 'tel',
-      fakerMethod: 'phone.phoneNumber'
-    }
-  ];
-
   /**
    * Generate some mock data for a specific entityType. String value will be
    * based on the property name and an index Integer / Decimal value will be
    * generated randomly Date / Time / DateTime value will also be generated
    * randomly
-   *
    * @param {object} oEntityType the Entity type used to generate the data
    * @param {number} iIndex index of this particular object in the parent collection
    * @param {object} mComplexTypes map of the complex types
@@ -169,7 +52,6 @@ function(Log, $, MockServer) {
 
   /**
    * Generate smart mock data for a specific Entity based on the rules set.
-   *
    * @param {string} entityName the Entity name used to generate the data
    * @param {object} entity the Entity object containing its properties and values
    * @returns {object} the mocked Entity with smart content
@@ -180,7 +62,7 @@ function(Log, $, MockServer) {
       if (!this._smartRules) {
         this._smartRules = [];
       }
-      let entityWithSmartData = $.extend(true, {}, entity);
+      let entityWithSmartData = structuredClone(entity);
       entityWithSmartData = this._generateDataFromEntityWithSapSemanticsAnnotations(entityName, entityWithSmartData);
       entityWithSmartData = this._generateDataFromEntityWithSmartMockServerAnnotations(entityName, entityWithSmartData);
       entityWithSmartData = this._generateDataFromEntityWithSmartRules(entityName, entityWithSmartData);
@@ -193,7 +75,6 @@ function(Log, $, MockServer) {
 
   /**
    * Generate smart mock data for a specific Entity based on the rules set.
-   *
    * @param {string} entityName the Entity name used to generate the data
    * @param {object} entity the Entity object containing its properties and values
    * @returns {object} the mocked Entity with smart content
@@ -201,12 +82,12 @@ function(Log, $, MockServer) {
    */
   SmartMockServer.prototype._generateDataFromEntityWithSmartRules = function(entityName, entity) {
     if (this._hasSmartRulesEntity(entityName)) {
-      const entityWithSmartData = $.extend(true, {}, entity);
-      Object.keys(entityWithSmartData).forEach(function(propertyName) {
+      const entityWithSmartData = structuredClone(entity);
+      for (const propertyName in entityWithSmartData) {
         if (this._hasSmartRulesEntityProperty(entityName, propertyName)) {
           entityWithSmartData[propertyName] = this._generatePropertyValueWithSmartRules(entityName, propertyName);
         }
-      }, this);
+      }
       return entityWithSmartData;
     } else {
       return entity;
@@ -215,7 +96,6 @@ function(Log, $, MockServer) {
 
   /**
    * Get Entity Properties which contain SAP Semantics Annotations.
-   *
    * @param {string} entityName the Entity name used to generate the data
    * @returns {Node[]} Entity Properties which contain SAP Semantics Annotations
    * @private
@@ -228,7 +108,6 @@ function(Log, $, MockServer) {
 
   /**
    * Generate smart mock data for an Entity based on the SAP semantics set for the properties.
-   *
    * @param {string} entityName the Entity name used to generate the data
    * @param {object} entity the Entity object containing its properties and values
    * @returns {object} the mocked Entity with smart content
@@ -237,7 +116,7 @@ function(Log, $, MockServer) {
   SmartMockServer.prototype._generateDataFromEntityWithSapSemanticsAnnotations = function(entityName, entity) {
     const propertiesWithSemantics = this._getEntityPropertiesWithSapSemanticsAnnotations(entityName);
     if (propertiesWithSemantics && propertiesWithSemantics.length && propertiesWithSemantics.length > 0) {
-      const entityWithSmartData = $.extend(true, {}, entity);
+      const entityWithSmartData = structuredClone(entity);
       propertiesWithSemantics.each(function(index, propertyXml) {
         const property = $(propertyXml);
         const fakerMethod = this._getFakerMethodFromSapSemantics(property.attr('sap:semantics'));
@@ -253,13 +132,12 @@ function(Log, $, MockServer) {
 
   /**
    * Gets the faker method assigned to the SAP Semantics Annotations
-   *
    * @param {string} sapSemantics SAP Semantics Annotations
    * @returns {string} the Faker method assigned to the SAP Semantics Annotations
    * @private
    */
   SmartMockServer.prototype._getFakerMethodFromSapSemantics = function(sapSemantics) {
-    const mapping = this.SAP_SEMANTICS_TO_FAKER_METHOD_MAPPING.find(function(mapping) {
+    const mapping = library.SAP_SEMANTICS_TO_FAKER_METHOD_MAPPING.find(function(mapping) {
       return mapping.sapSemantics === sapSemantics;
     });
     if (mapping) {
@@ -271,7 +149,6 @@ function(Log, $, MockServer) {
 
   /**
    * Get Entity Properties which contain Smart MockServer Annotations.
-   *
    * @param {string} entityName the Entity name used to generate the data
    * @returns {Node[]} Entity Properties which contain Smart MockServer Annotations
    * @private
@@ -284,7 +161,6 @@ function(Log, $, MockServer) {
 
   /**
    * Generate smart mock data for an Entity based on the Smart MockServer Annotations set for the properties.
-   *
    * @param {string} entityName the Entity name used to generate the data
    * @param {object} entity the Entity object containing its properties and values
    * @returns {object} the mocked Entity with smart content
@@ -293,7 +169,7 @@ function(Log, $, MockServer) {
   SmartMockServer.prototype._generateDataFromEntityWithSmartMockServerAnnotations = function(entityName, entity) {
     const propertiesWithSemantics = this._getEntityPropertiesWithSmartMockServerAnnotations(entityName);
     if (propertiesWithSemantics && propertiesWithSemantics.length && propertiesWithSemantics.length > 0) {
-      const entityWithSmartData = $.extend(true, {}, entity);
+      const entityWithSmartData = structuredClone(entity);
       propertiesWithSemantics.each(function(index, propertyXml) {
         const property = $(propertyXml);
         const fakerMethod = property.attr('smartmockserver:rule');
@@ -309,7 +185,6 @@ function(Log, $, MockServer) {
 
   /**
    * Generate smart mock data for a specific Entity property based on the rules set.
-   *
    * @param {string} entityName the Entity name used to generate the data
    * @param {string} propertyName the property name which contains a smart rule to generate the data
    * @returns {object} the mocked Entity with smart content
@@ -322,18 +197,16 @@ function(Log, $, MockServer) {
 
   /**
    * Calls the Faker method defined in the smart rule and returns its result
-   *
    * @param {string} fakerMethod the Entity name used to generate the data
    * @returns {object} the result of the Faker method defined in the smart rule (can be any type)
    * @private
    */
   SmartMockServer.prototype._callFakerMethod = function(fakerMethod) {
-    return faker.fake('{{' + fakerMethod + '}}');
+    return library.faker.helpers.fake('{{' + fakerMethod + '}}');
   };
 
   /**
    * Gets the Entity with smart rules assigned to it
-   *
    * @param {string} entityName the name of the Entity that has smart rules
    * @returns {object} the smart rules defined for the Entity
    * @private
@@ -346,7 +219,6 @@ function(Log, $, MockServer) {
 
   /**
    * Gets the Entity property with a smart rule assigned to it
-   *
    * @param {string} entityName the name of the Entity that has smart rules
    * @param {string} propertyName the name of the Entity property that has a smart rule
    * @returns {object} the smart rule defined for the Entity property
@@ -364,7 +236,6 @@ function(Log, $, MockServer) {
 
   /**
    * Verifies whether the Entity has smart rules assigned to it
-   *
    * @param {string} entityName the name of the Entity that has smart rules
    * @returns {boolean} true if Entity has any smart rule
    * @private
@@ -375,7 +246,6 @@ function(Log, $, MockServer) {
 
   /**
    * Verifies whether the Entity property has a smart rule assigned to it
-   *
    * @param {string} entityName the name of the Entity that has smart rules
    * @param {string} propertyName the name of the Entity property that has a smart rule
    * @returns {boolean} true if Entity property has any smart rule
@@ -387,7 +257,6 @@ function(Log, $, MockServer) {
 
   /**
    * Sets the smart rules to the Entities and their properties
-   *
    * @param {object[]} smartRules An array of smart rules
    * @param {string} smartRules[].entityName The name of an Entity.
    * @param {object[]} smartRules[].properties An array with Entity properties and its Faker methods.
@@ -419,15 +288,15 @@ function(Log, $, MockServer) {
 
   /**
    * Registers mock servers into ServiceWorker
-   *
    * @param {string} filename - Filename
    */
   SmartMockServer.registerServiceWorker = function(filename) {
     // Generates request handlers
-    SmartMockServer.getAll().forEach(function(server) {
+    const servers = SmartMockServer.getAll();
+    for (const server of servers) {
       server.start();
       server.stop();
-    });
+    }
     navigator.serviceWorker.addEventListener('message', onServiceWorkerMessage);
 
     return navigator.serviceWorker.register(filename)
@@ -513,7 +382,6 @@ function(Log, $, MockServer) {
 
   /**
    * Get MockServer by root url
-   *
    * @param {string} url - MockServer root URL
    */
   function getMockServerByRootUri(url) {
@@ -526,7 +394,6 @@ function(Log, $, MockServer) {
 
   /**
    * Get mock request
-   *
    * @param {object} capturedRequest
    * @param {sap.ui.core.util.MockServer} server
    */
@@ -550,7 +417,6 @@ function(Log, $, MockServer) {
 
   /**
    * Handler for ServiceWorker onMessage event
-   *
    * @param {object} evt - Event
    */
   function onServiceWorkerMessage(evt) {

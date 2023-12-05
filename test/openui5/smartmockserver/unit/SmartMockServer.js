@@ -2,8 +2,9 @@
 
 sap.ui.define([
   'sap/ui/core/util/MockServer',
-  'openui5/smartmockserver/SmartMockServer'
-], function(MockServer, SmartMockServer) {
+  'openui5/smartmockserver/SmartMockServer',
+  'openui5/smartmockserver/library'
+], function(MockServer, SmartMockServer, library) {
   const entityNameWithoutSmartRules = 'Customer';
   const entityNameWithSmartRules = 'Employee';
   const entityNameWithSapSemantics = 'SAPSemanticEntity';
@@ -39,11 +40,11 @@ sap.ui.define([
       properties: [
         {
           name: 'FirstName',
-          fakerMethod: 'name.firstName'
+          fakerMethod: 'person.firstName'
         },
         {
           name: 'Address',
-          fakerMethod: 'address.streetAddress'
+          fakerMethod: 'location.streetAddress'
         }
       ]
     }];
@@ -195,20 +196,15 @@ sap.ui.define([
 
     QUnit.module('_callFakerMethod', () => {
       test('Should call a Faker method and return a value', (assert) => {
-        const generatedValue = mockServer._callFakerMethod('name.firstName');
+        const generatedValue = mockServer._callFakerMethod('person.firstName');
         assert.ok(generatedValue);
       });
 
       test('Should call an invalid Faker method and return an error', (assert) => {
-        let errorRaised;
-        const fakerMethodInvalid = 'name.ThisFakerMethodDoesNotExist';
-        try {
+        const fakerMethodInvalid = 'person.ThisFakerMethodDoesNotExist';
+        assert.throws(() => {
           mockServer._callFakerMethod(fakerMethodInvalid);
-        } catch (err) {
-          errorRaised = err;
-        }
-        assert.deepEqual(errorRaised instanceof Error, true);
-        assert.deepEqual(errorRaised.toString(), 'Error: Invalid method: ' + fakerMethodInvalid);
+        });
       });
     });
 
@@ -273,9 +269,9 @@ sap.ui.define([
 
     QUnit.module('_getFakerMethodFromSapSemantics', () => {
       test('Should return the Faker method mapped to the SAP Semantics', (assert) => {
-        assert.deepEqual(mockServer.SAP_SEMANTICS_TO_FAKER_METHOD_MAPPING instanceof Array, true);
-        assert.deepEqual(mockServer.SAP_SEMANTICS_TO_FAKER_METHOD_MAPPING.length > 0, true);
-        mockServer.SAP_SEMANTICS_TO_FAKER_METHOD_MAPPING.forEach(function(item) {
+        assert.deepEqual(library.SAP_SEMANTICS_TO_FAKER_METHOD_MAPPING instanceof Array, true);
+        assert.deepEqual(library.SAP_SEMANTICS_TO_FAKER_METHOD_MAPPING.length > 0, true);
+        library.SAP_SEMANTICS_TO_FAKER_METHOD_MAPPING.forEach(function(item) {
           const fakerMethod = mockServer._getFakerMethodFromSapSemantics(item.sapSemantics);
           assert.ok(fakerMethod);
         });
