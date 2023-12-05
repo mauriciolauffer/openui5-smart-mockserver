@@ -16,7 +16,8 @@
     "faker",
     "fake",
     "smart",
-    "smarter"
+    "smarter",
+    "odata"
   ],
   "main": "dist/resources/openui5/smartmockserver/library-preload.js",
   "browser": "dist/resources/openui5/smartmockserver/library-preload.js",
