@@ -48,10 +48,10 @@
         <Key>
           <PropertyRef Name="CustomerID" />
         </Key>
-        <Property Name="CustomerID" Type="Edm.String" Nullable="false" MaxLength="5" Unicode="true" smartmockserver:rule="random.number" />
-        <Property Name="CompanyName" Type="Edm.String" Nullable="false" MaxLength="40" Unicode="true" smartmockserver:rule="company.companyName"/>
-        <Property Name="Address" Type="Edm.String" Nullable="true" MaxLength="60" Unicode="true" smartmockserver:rule="address.streetAddress" />
-        <Property Name="Country" Type="Edm.String" Nullable="true" MaxLength="15" Unicode="true" smartmockserver:rule="address.country" />
+        <Property Name="CustomerID" Type="Edm.String" Nullable="false" MaxLength="5" Unicode="true" smartmockserver:rule="number.int" />
+        <Property Name="CompanyName" Type="Edm.String" Nullable="false" MaxLength="40" Unicode="true" smartmockserver:rule="company.name"/>
+        <Property Name="Address" Type="Edm.String" Nullable="true" MaxLength="60" Unicode="true" smartmockserver:rule="location.streetAddress" />
+        <Property Name="Country" Type="Edm.String" Nullable="true" MaxLength="15" Unicode="true" smartmockserver:rule="location.country" />
         <Property Name="Phone" Type="Edm.String" Nullable="true" MaxLength="24" Unicode="true" />
       </EntityType>
 

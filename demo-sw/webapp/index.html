@@ -8,20 +8,21 @@
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self' https://openui5.hana.ondemand.com;
         script-src 'self' 'unsafe-eval' https://openui5.hana.ondemand.com;
-        img-src 'self' https://s3.amazonaws.com">
+        img-src 'self' https://s3.amazonaws.com https://cloudflare-ipfs.com https://avatars.githubusercontent.com">
   <title>OpenUI5 Smart MockServer</title>
 </head>
 <body class="sapUiBody" role="application">
   <div id="content" data-sap-ui-component data-async="true" data-id="mlauffer.demo"
        data-name="mlauffer.demo.openui5.smartmockserver"></div>
 <script id="sap-ui-bootstrap" async defer
-        src="https://openui5.hana.ondemand.com/1.96.0/resources/sap-ui-core.js"
-        data-sap-ui-libs="sap.m" data-sap-ui-theme="sap_fiori_3"
+        src="https://openui5.hana.ondemand.com/1.120.0/resources/sap-ui-core.js"
+        data-sap-ui-libs="openui5.smartmockserver"
+        data-sap-ui-theme="sap_horizon"
         data-sap-ui-compatVersion="edge" data-sap-ui-async="true"
         data-sap-ui-oninit="module:mlauffer/demo/openui5/smartmockserver/localService/initMockServer"
         data-sap-ui-language="en"
         data-sap-ui-resourceroots='{
           "mlauffer.demo.openui5.smartmockserver": "./",
-          "openui5.smartmockserver": "../../dist/resources/openui5/smartmockserver"}'></script>
+          "openui5.smartmockserver": "/dist/resources/openui5/smartmockserver"}'></script>
 </body>
 </html>

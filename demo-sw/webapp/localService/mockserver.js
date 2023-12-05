@@ -17,39 +17,39 @@ sap.ui.define([
         },
         {
           name: 'FirstName',
-          fakerMethod: 'name.firstName'
+          fakerMethod: 'person.firstName'
         },
         {
           name: 'LastName',
-          fakerMethod: 'name.lastName'
+          fakerMethod: 'person.lastName'
         },
         {
           name: 'Title',
-          fakerMethod: 'name.title'
+          fakerMethod: 'person.prefix'
         },
         {
           name: 'Address',
-          fakerMethod: 'address.streetAddress'
+          fakerMethod: 'location.streetAddress'
         },
         {
           name: 'Region',
-          fakerMethod: 'address.stateAbbr'
+          fakerMethod: 'location.stateAbbr'
         },
         {
           name: 'City',
-          fakerMethod: 'address.city'
+          fakerMethod: 'location.city'
         },
         {
           name: 'PostalCode',
-          fakerMethod: 'address.zipCode'
+          fakerMethod: 'location.zipCode'
         },
         {
           name: 'Country',
-          fakerMethod: 'address.countryCode'
+          fakerMethod: 'location.countryCode'
         },
         {
           name: 'HomePhone',
-          fakerMethod: 'phone.phoneNumber'
+          fakerMethod: 'phone.number'
         },
         {
           name: 'Notes',

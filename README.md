@@ -121,8 +121,8 @@ sap.ui.define([
               name: 'FirstName', // Entity's property name
               fakerMethod: 'name.firstName' //Faker.js method which will be used for this property
             },
-            { name: 'Address', fakerMethod: 'address.streetAddress' },
-            { name: 'Phone', fakerMethod: 'phone.phoneNumber' },
+            { name: 'Address', fakerMethod: 'location.streetAddress' },
+            { name: 'Phone', fakerMethod: 'phone.number' },
             { name: 'Email', fakerMethod: 'internet.email' }
           ]
         });

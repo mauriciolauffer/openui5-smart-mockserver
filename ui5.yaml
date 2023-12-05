@@ -1,4 +1,4 @@
-specVersion: '2.6'
+specVersion: "3.1"
 metadata:
   name: openui5-smart-mockserver
   copyright: |-
@@ -8,21 +8,41 @@ metadata:
 type: library
 framework:
   name: OpenUI5
-  version: 1.96.0
+  version: 1.120.0
   libraries:
     - name: sap.ui.core
+      development: true
+    - name: sap.m
+      development: true
+    - name: themelib_sap_horizon
+      development: true
+
 builder:
+  settings:
+    includeDependency:
+      - faker
   resources:
     excludes:
       - "/**/SmartMockServerServiceWorker.js"
+      - "/test/**"
       - "/test-resources/**"
   libraryPreload:
     excludes:
       - "openui5/smartmockserver/thirdparty/**"
-  customTasks:
-    - name: ui5-task-copy-resources
-      afterTask: uglify
-      configuration:
-        includeDependencies: true
-        resources:
-          - "/resources/openui5/smartmockserver/thirdparty/**"
+---
+specVersion: "3.1"
+kind: extension
+type: project-shim
+metadata:
+  name: openui5.smartmockserver.thirdparty.faker
+shims:
+  configurations:
+    "@faker-js/faker":
+      specVersion: "3.1"
+      type: module
+      metadata:
+        name: faker
+      resources:
+        configuration:
+          paths:
+            /resources/openui5/smartmockserver/thirdparty/faker/: "dist/esm/"
