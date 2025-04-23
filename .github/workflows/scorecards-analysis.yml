@@ -3,44 +3,18 @@ on:
   # Only the default branch is supported.
   branch_protection_rule:
   schedule:
-    - cron: '30 5 * * 1'
+    - cron: "10 5 * * 1"
   push:
-    branches: [ master ]
+    branches: [master]
 
 # Declare default permissions as read only.
 permissions: read-all
 
 jobs:
   analysis:
-    name: Scorecards analysis
-    runs-on: ubuntu-latest
     permissions:
-      # Needed to upload the results to code-scanning dashboard.
       security-events: write
       id-token: write
-
-    steps:
-      - name: "Checkout code"
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-
-      - name: "Run analysis"
-        uses: ossf/scorecard-action@0864cf19026789058feabb7e87baa5f140aac736 # v2.3.1
-        with:
-          results_file: results.sarif
-          results_format: sarif
-          # Read-only PAT token. To create it,
-          # follow the steps in https://github.com/ossf/scorecard-action#pat-token-creation.
-          repo_token: ${{ secrets.SCORECARD_READ_TOKEN }}
-          # Publish the results to enable scorecard badges. For more details, see
-          # https://github.com/ossf/scorecard-action#publishing-results.
-          # For private repositories, `publish_results` will automatically be set to `false`,
-          # regardless of the value entered here.
-          publish_results: true
-
-      # Upload the results to GitHub's code scanning dashboard.
-      - name: "Upload to code-scanning"
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: results.sarif
+    uses: mauriciolauffer/.github/.github/workflows/scorecards-analysis.yml@main
+    secrets:
+      SCORECARD_READ_TOKEN: ${{ secrets.SCORECARD_READ_TOKEN }}

@@ -1,5 +1,0 @@
-root: true
-extends:
-  - eslint-config-mlauffer-ui5
-globals:
-  faker: true

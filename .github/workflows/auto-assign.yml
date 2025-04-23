@@ -1,0 +1,15 @@
+name: Auto-assign Issue + PR
+
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions: read-all
+
+jobs:
+  auto-assign:
+    permissions:
+      issues: write
+    uses: mauriciolauffer/.github/.github/workflows/auto-assign.yml@main

@@ -2,25 +2,15 @@ name: NPM Package Publish
 
 on:
   release:
-    types: [created]
+    types: [published]
+  workflow_dispatch:
 
 permissions: read-all
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
     permissions:
       id-token: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org
-          cache: npm
-      - run: npm i -g @ui5/cli --ignore-scripts
-      - run: npm ci --ignore-scripts
-      - run: npm run build
-      - run: npm publish --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_SECRET }}
+    uses: mauriciolauffer/.github/.github/workflows/npm-publish.yml@main
+    secrets:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_SECRET }}

@@ -1,32 +1,25 @@
 export const config = {
-  specs: [
-    './**/*.test.js'
+  specs: ['./**/*.test.js'],
+
+  capabilities: [
+    {
+      'browserName': 'chrome',
+      'browserVersion': 'stable',
+      'goog:chromeOptions': {
+        args: ['headless', 'disable-gpu', 'window-size=1024,768', 'no-sandbox']
+      }
+    }
   ],
 
-  capabilities: [{
-    'browserName': 'chrome',
-    'goog:chromeOptions': {
-      args: ['headless', 'disable-gpu']
-    }
-  }],
-
-  logLevel: 'error',
+  logLevel: 'warn',
   framework: 'mocha',
   reporters: ['spec'],
+  waitforTimeout: 90000,
 
-  services: [
-    'qunit',
-    ['devtools', {
-      coverageReporter: {
-        enable: true,
-        type: 'html',
-        logDir: './coverage',
-        exclude: ['/resources/', '/test/']
-      }
-    }]
-  ],
+  services: ['qunit'],
 
   mochaOpts: {
-    ui: 'bdd'
+    ui: 'bdd',
+    timeout: 90000
   }
 };
