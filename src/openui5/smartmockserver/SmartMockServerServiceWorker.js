@@ -19,7 +19,7 @@ self.addEventListener('fetch', onFetchSmartMockServer);
  *
  * @param evt
  */
-function onInstallSmartMockServer(evt) {
+function onInstallSmartMockServer(evt) { // eslint-disable-line no-unused-vars
   return self.skipWaiting();
 }
 
@@ -27,7 +27,7 @@ function onInstallSmartMockServer(evt) {
  *
  * @param evt
  */
-function onActivateSmartMockServer(evt) {
+function onActivateSmartMockServer(evt) { // eslint-disable-line no-unused-vars
   return self.clients.claim();
 }
 
