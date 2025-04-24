@@ -89,7 +89,7 @@ function(Lib) {
     },
     {
       sapSemantics: 'bcc',
-      fakerMethod: 'internet.email', //eslint-disable-line
+      fakerMethod: 'internet.email',
     },
     {
       sapSemantics: 'cc',

@@ -3,17 +3,11 @@ on:
   push:
     branches: [master]
 
-permissions: read-all
-
 jobs:
   release:
-    runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
-    steps:
-      - uses: google-github-actions/release-please-action@v4
-        with:
-          token: ${{ secrets.GH_PAT }}
-          release-type: node
-          package-name: openui5-smart-mockserver
+    uses: mauriciolauffer/.github/.github/workflows/release.yml@main
+    secrets:
+      GITHUB_PAT: ${{ secrets.GH_PAT }}

@@ -45,7 +45,7 @@ function(library, Log, $, MockServer) {
    * @returns {object} the mocked Entity
    * @private
    */
-  SmartMockServer.prototype._generateDataFromEntity = function(oEntityType, iIndex, mComplexTypes) {
+  SmartMockServer.prototype._generateDataFromEntity = function(oEntityType, iIndex, mComplexTypes) { // eslint-disable-line no-unused-vars
     const entity = SmartMockServer.prototype._generateDataFromEntityOriginal.apply(this, arguments);
     return this._generateDataWithSmartRules(oEntityType.name, entity);
   };

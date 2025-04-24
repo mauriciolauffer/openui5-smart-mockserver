@@ -71,7 +71,7 @@ sap.ui.define([
       const manifestApp = Component.getMetadata().getManifestEntry('sap.app');
       const mainDataSource = manifestApp.dataSources['NORTHWIND'];
       const metadataUrl = sap.ui.require.toUrl('mlauffer/demo/openui5/smartmockserver/') + mainDataSource.settings.localUri;
-      const mockServerUrl = /.*\/$/.test(mainDataSource.uri) ? mainDataSource.uri : mainDataSource.uri + '/';
+      const mockServerUrl = /.*\/$/.test(mainDataSource.uri) ? mainDataSource.uri : mainDataSource.uri + '/'; // eslint-disable-line sonarjs/slow-regex
       const mockServer = new SmartMockServer({rootUri: mockServerUrl});
 
       SmartMockServer.config({
